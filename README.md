@@ -3,4 +3,30 @@ Welcome! I'm compiling my tweet threads here, and hope to eventually turn the co
 
 I'd love some help turning this into a reality, so I'd be happy to compensate you with a share of future book revenue if you help me out here.
 
-See the Issues tab above for the list of tasks
+See the Issues tab above for the list of tasks.
+
+Here are all the threads so far:
+
+Hash Functions
+https://threadreaderapp.com/thread/1281100866871648256.html
+
+Mining and Blockchain
+https://threadreaderapp.com/thread/1281614121947914240.html
+
+Anatomy of Bitcoin Transaction
+https://threadreaderapp.com/thread/1281981259946749955.html
+
+Transaction Fees
+https://threadreaderapp.com/thread/1282189867770765313.html
+
+Mining Difficulty Adjustment
+https://threadreaderapp.com/thread/1282544554650951680.html
+
+Consolidation Transactions
+https://threadreaderapp.com/thread/1282374718033559552.html
+
+Internet Censorship and Bitcoin
+https://threadreaderapp.com/thread/1283219711975493632.html
+
+Private Keys, Public Keys, and Digital Signatures
+https://threadreaderapp.com/thread/1283928379201212416.html
