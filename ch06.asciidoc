@@ -1,0 +1,103 @@
+== Bitcoin Consolidation Transactions
+
+These can help you Save Money on Fees!
+
+What are they? How do they work? 👇
+
+Before we start, this thread requires a little bit of background knowledge.
+
+If you're new, I recommend checking out the threads on link:ch03.asciidoc[Bitcoin Transactions] and link:ch04.asciidoc[Transaction Fees] if you haven't already.
+
+To explain Consolidation Transactions, lets consider somebody named Alice, who runs an online store selling crystals.
+
+Her crystal bundles sell for 0.01 BTC each, and she generally sells about 1 per day.
+
+image:images/crystals-lady-gaga.png[Crystals Lady Gaga GIF]
+
+Now imagine that a year has gone by, and she'd like to spend all of her Bitcoin to buy a new car!
+
+image:images/car.png[car GIF]
+
+Before she makes this purchase, let's look at the contents of her wallet.
+
+1 receive per day for 365 days, means her wallet will contain 365 UTXO's, each worth 0.01 BTC.
+
+That's a lot of UTXOs!
+
+image:images/friends-ross-geller.png[Friends Ross Geller GIF]
+
+Lets see how much data her transaction will use:
+
+365 inputs each cost 68 bytes
+
+1 output costs 32 bytes
+
+10 bytes of overhead
+
+So total bytes = (365*68) + (1*32) + 10 = 24,862 Bytes!
+
+Now imagine the current bitcoin transaction volume is above average, so to get a fast confirmation she needs to pay a fee rate of 200 sats/byte.
+
+The total cost of her transaction will be:
+
+(24,862 bytes) * (200 sats/byte) = 4,972,400 sats
+
+Thats about $450, yikes!!
+
+image:images/expensive-real-housewives.png[Expensive Real Housewives GIF]
+
+Luckily, Alice knows about Consolidation Transactions!
+
+She knew she was getting ready to make a big purchase, so about two weeks before purchasing her car, she fires off a Consolidation Transaction within her wallet.
+
+What this means is that she simply sends her entire balance to herself, but pays a super low fee rate!
+
+This transaction will still be 24,862 bytes, but she'll pay a fee rate of only 2 sats/byte.
+
+(24,862 bytes) * (2 sats/byte) = 49,472 sats
+
+~= $4.50
+
+By sending her own bitcoin to herself, she is essentially turning her 365 UTXOs into a single UTXO.
+
+It's kind of like going to the bank and trading in 400 quarters for a single 100 dollar bill.
+
+image:images/all-about-the-benjamins-dance.png[all about the benjamins dan...]
+
+The tradeoff here is that this Consolidation Transaction will take a long time to confirm (because of its Low Fee Rate). It might take days or even a week to confirm.
+
+But Alice is willing to make that tradeoff, because she has plenty of time, and knows about the massive savings.
+
+image:images/life-is-just-a-series-of-trade-offs.png[Life Is Just A Series Of Tra...]
+
+Now when Alice is ready to purchase her Car, she has prepared her wallet, and her wallet only has a single UTXO, worth 3.65 BTC.
+
+Now lets look at her transaction to the car seller:
+
+1 Input costs 68 bytes
+
+1 Output costs 32 bytes
+
+10 bytes of overhead
+
+68 + 32 + 10 = 110 bytes
+
+She'd like this transaction to confirm quickly, so she'll pay a high fee rate of 200 sats/byte.
+
+(110 bytes) * (200 sats/byte) = 22,000 sats
+
+~= $2 !!
+
+image:images/kd-kevin.png[KD Kevin GIF]
+
+So to recap, without consolidation, Alice would have spent $450 dollars on a single transaction to purchase her car.
+
+But by preemptively doing a Single consolidation transaction (and being patient enough to wait), she spent $4.50 on the consolidation and $2 on the purchase!
+
+So by maintaining her wallet properly and performing a single Consolidation transaction, Alice was able to save about $443 on transaction fees.
+
+image:images/serena-williams-applause.png[serena williams applause GIF]
+
+That's the basics of how Consolidation transactions can create huge savings.
+
+Hope it makes sense.

@@ -1,0 +1,174 @@
+== Anatomy of a Bitcoin Transaction
+
+TXID, Outputs, Inputs, Transaction Fees, UTXOs - what do all these terms mean?
+
+In this thread we will dissect a real bitcoin transaction and I'll explain its main components.
+
+To expand your background knowledge, read on 👇
+
+Let's take a look at random bitcoin transaction I picked from a recent block.
+
+.Blockstream Block Explorer
+image:images/blockstream.png[Example Transaction, link="https://blockstream.info/tx/3773f1874b380ab8a77e8f1268c40e43cce8ade5a5ae78db4f9526b43f34076b"]
+
+The top of the page has a bunch of data about the Block it was mined in, the fees paid, and some other stuff, but let's focus on the bottom part of the page, as shown in this screenshot:
+
+image:images/sample-transaction.png[sample-transaction]
+
+The first part you should know about is the Transaction ID, also known as the TXID (circled in red).
+
+This is used to uniquely identify a transaction, and it comes from taking the SHA-256 Hash of the transaction data twice.
+
+image:images/sample-transaction-circled.png[sample-transaction-circled]
+
+(Side note, for a primer on what a SHA-256 Hash is, check out link:ch01.asciidoc[my thread on Hash functions]).
+
+Next lets look at those two entries on the right. These are the Outputs (recipients) of the transaction.
+
+The recipients are identified by those jumble of numbers and letters that start with a 3.
+
+These are bitcoin addresses, and you can think of them kinda like email addresses.
+
+image:images/sample-transaction-circled-1.png[sample-transaction-circled-1]
+
+We can see there are two addresses that received bitcoin here.
+
+#0 received 0.2862 BTC
+
+#1 received 0.40861192 BTC
+
+image:images/sample-transaction-circled-2.png[sample-transaction-circled-2]
+
+In software, it's common to count starting from 0, which is why the first Output is labeled as #0, and the second is labeled as #1.
+
+image:images/sample-transaction-circled-3.png[sample-transaction-circled-3]
+
+Ok so we've identified the TXID and the Outputs, now lets take a look at the Input to this transaction, which is on the left.
+
+Transactions can have multiple inputs, but this transaction has just one single Input, worth 0.69561192 BTC.
+
+image:images/sample-transaction-circled-4.png[sample-transaction-circled-4]
+
+Now that we've inspected the TXID, the Outputs, and the Input, let's take a step back a summarize what's happening in this transaction.
+
+Somebody spent 0.69561192 BTC
+
+One address received 0.2862 BTC
+Another address received 0.40861192 BTC
+
+If you're quick at Math, you might realize that the amount Spent is slightly larger than the total amount Received.
+
+0.69561192 - (0.2862 + 0.40861192) = 0.0008
+
+Hmm.. what happened here, was it a mistake?
+
+image:images/frye-stare.png[Frye Stare GIF]
+
+This missing amount is actually not a mistake at all.
+
+This leftover amount is what's known as the Transaction Fee, and it's a bribe paid to the miners to convince them to mine (finalize) the transaction.
+
+Higher fee rate = higher incentive for a miner to finalize your transaction.
+
+image:images/simpsons-bribe-me.png[Simpsons Bribe Me GIF]
+
+The fee is never explicitly written into the transaction.
+
+It's just calculated by subtracting the outputs from the inputs.
+
+The miner who mines a block with this transaction gets to claim these fees as their own.
+
+The website has calculated this fee for us and shows it at the top.
+
+image:images/sample-transaction-fees.png[sample-transaction-fees]
+
+Ok so we've covered the TXID, Outputs, Inputs, and Transaction Fees.
+
+But let's dive a little further and explain where that Input came from.
+
+You see, when an Output is created, it becomes what we call a UTXO (or Unspent Transaction Output).
+
+You can think of UTXOs like the dollar bills and coins in your physical wallet.
+
+These are the funds you have available to Spend at any given moment.
+
+To spend a UTXO, you put it as an Input to a transaction. 
+
+image:images/rich-pay-day.png[rich pay day GIF]
+
+Let's see if we can figure out where our Input came from.
+
+If we take another look, we'll see the Input has an identifier on it that looks like a TXID with ":1" added to the end.
+
+image:images/sample-transaction-first-input.png[sample-transaction-first-input]
+
+This identifier (txid + :number) has a few different names, some call it a "UTXO-key", or an "outpoint".
+
+In our situation it tells us our Input comes from Output #1 of 72a3393bd12a97daae13e1f2a7838a235e8dcf1de7845528afae74e999adaa66.
+
+image:images/sample-transaction-first-input.png[sample-transaction-first-input]
+
+So let's click on that link and see where it takes us!
+
+It takes us to a previous transaction.
+
+Now take a look at the second Output (Output #1) of this previous transaction.
+
+Do you notice anything?
+
+image:images/sample-transaction-second-output.png[sample-transaction-second-output]
+
+Look at the amount, it is 0.69561192 BTC, which is exactly the same amount as the Input to our original transaction!
+
+image:images/sample-transaction-second-output-circled.png[sample-transaction-second-output-circled]
+
+You've just done what every bitcoin node does for every transaction before accepting it - you've validated that it is spending the correct amount from a previous output. Nice!
+
+Here's a graphic showing the two transactions - the older one on top, and the newer one on the bottom.
+
+image:images/sample-transaction-links.png[sample-transaction-links]
+
+This linking of outputs to inputs is how the network monitors the history of all transactions, and ensures that no unexpected new coins are created.
+
+Each output can only be spent once!
+
+image:images/gus-sorola-rt-podcast.png[gus sorola rt podcast GIF by Rooster Teeth]
+
+Make sense? Awesome!
+
+But here's a question for you.
+
+Say I only own a single UTXO, worth 0.69561192 BTC, but I want to send my friend @SahilBloom 0.2862 BTC?
+
+image:images/confused-dogs.png[Confused Dogs GIF]
+
+Well let's go back to the dollar bill analogy and ask the same question.
+
+Imagine I have a single 10 dollar bill in my wallet, but I want to buy a 5 dollar coffee?
+
+Easy, I give the cashier my 10 dollar bill, and they give me back a 5 dollar bill as Change.
+
+image:images/change.png[Change GIF]
+
+Bitcoin uses a similar concept of Change.
+
+For me to pay @SahilBloom 0.2862 using my 0.69561192 UTXO, I'll create a transaction with two Outputs:
+
+- One for 0.2862 to Sahil
+- And one that gives the remaining 0.40861192 change back to me.
+
+image:images/sample-transaction-circled-5.png[sample-transaction-circled-5]
+
+Looks like that's exactly what might have happened in this transaction we dissected!
+
+Although this wasn't actually my transaction - so I can't say for sure which output was the payment and which was the change, but you get the idea.
+
+So let's recap:
+
+We learned about TXIDs, Outputs, Inputs, Fees, UTXOs, Change, and the basic concept of how transactions are linked (Outputs are UTXOs until they become Inputs).
+
+There's a lot more we can discuss regarding Transactions, but I'll end the thread here.
+
+I hope this was a helpful summary of the basics. Let me know in the comments if you have any questions!
+
+image:images/rhyming-leonardo-dicaprio.png[rhyming leonardo dicaprio GIF]

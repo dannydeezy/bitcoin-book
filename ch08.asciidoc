@@ -1,0 +1,111 @@
+== Private Keys, Public Keys, and Digital Signatures
+
+Private Keys, Public Keys, and Digital Signatures.
+
+What do all these terms mean?
+
+Here's a high level overview of the basics, and how they help us do cool things especially in bitcoin 👇
+
+A Private Key is just secret number.
+
+Thats all.
+
+It's just a really large random number - so large that it can't be guessed by anyone.
+
+image:images/numbers-crunching.png[Numbers Crunching GIF]
+
+In bitcoin, private keys can be any number between 0 and 2^256.
+
+To get a sense of how many choices there are, 2^256 is roughly the number of atoms in the known universe.
+
+image:images/galaxy-knowledge.png[Galaxy Knowledge GIF]
+
+So if you use a good random number generator to pick a number between 0 and 2^256, it's basically impossible for anyone to guess what the number is.
+
+image:images/its-a-secret.png[It&#39;s A Secret GIF]
+
+Once you have a Private Key, you can then calculate its Public Key.
+
+You do this by multiplying the Private Key by a set number that everyone has agreed upon (we call this set number G - the "Generator" point).
+
+image:images/purple-mark.png[Purple Mark GIF]
+
+Now there are a couple important catches here.
+
+This isn't regular multiplication.
+
+Its a fancy type of multiplication that uses a special number system (which I won't get into here).
+
+In this number system, multiplication is easy, but DIVISION is IMPOSSIBLE.
+
+image:images/thanos-impossible.png[Thanos Impossible GIF]
+
+The important point is that if you have a just Public Key, there is no way to figure out the Private Key.
+
+You can't just divide it by G, because in this number system, division is impossible.
+
+(This number system is an Elliptic Curve over a Finite Field, aka "fancy math").
+
+image:images/calculating-figure-it-out.png[Calculating Figure It Out GIF]
+
+Let's not go too far into the math, but let's recap:
+
+- Private key is a secret number.
+- Public key is also basically a number, and you get it by multiplying the private key by G.
+- Division is impossible, so you cannot figure out the Private Key if you only know the Public Key.
+
+image:images/shaun-the-sheep-movie-ok.png[Shaun The Sheep Movie Ok GIF]
+
+The nice thing about Public Keys is that you can safely share them with everyone.
+
+So they function kind of like your digital identity.
+
+image:images/crazy-mr-bean.png[Crazy Mr Bean GIF]
+
+So what can we do with this now?
+
+Imagine I own 1 Bitcoin and I'd like to send it to my friend @SahilBloom.
+
+In order to send this coin, I need a way to "prove" to the network that I am the rightful owner of this coin and authorize it's transfer.
+
+image:images/season-9-episode-21.png[season 9 episode 21 GIF by SpongeBob SquarePants]
+
+This is where Digital Signatures come into play.
+
+I first create a message (in this case its a bitcoin transaction) that says:
+
+"I, the owner of Danny's Public Key, authorize the sending of this 1 Bitcoin to the owner of Sahil's Public Key".
+
+image:images/send-it.png[Send It GIF]
+
+Now I need to prove to everyone that I created this message.
+
+This proof is called a Digital Signature.
+
+I basically just put my Private Key and the Message into an equation, and out pops another number - the Signature!
+
+image:images/old-school-animation.png[old school animation GIF by bentuber]
+
+The cool thing about this number (Signature), is that anybody can look at the Signature, the Message, and the Public Key, plug them into another simple equation.
+
+If the math checks out, they can be 100% sure that the owner of the private key is the one who created the signature.
+
+image:images/to-do-check.png[To Do Check GIF by Clean Mama]
+
+In other words, the Signature is mathematical proof that owner of the Private Key has authorized the Message!
+
+image:images/definitive-proof-guaranteed.png[Definitive Proof Guaranteed GIF]
+
+Those are the basics of Private Keys, Public Keys, and Digital Signatures.
+
+These elements of cryptography are used everywhere in software and the internet (not just bitcoin), and are a great example of the powers the fancy math gives us.
+
+image:images/revenge-of-the-sith-power.png[revenge of the sith power GIF by Star Wars]
+
+Unfortunately I've hand-waved over the wonderful math that makes this all possible.
+
+For more info on that, you can research "link:https://google.com/search?q=Elliptic+Curves+over+Finite+Fields[Elliptic Curves over Finite Fields]". The Math isn't too complicated, it's just very different from what they teach us in school.
+
+Hope that was helpful!
+
+Let me know if I got anything wrong - I really appreciate all the feedback in the comments 😀
