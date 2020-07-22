@@ -1,0 +1,156 @@
+== Transaction Fees in Bitcoin
+
+Ever wonder why bitcoin transaction fees are sometimes high, sometimes low?
+
+Did you know that sending 0.001 bitcoin can cost more than sending 10,000 bitcoins depending on the situation?
+
+I'll explain all this below 👇
+
+For transactions to be finalized, they must be included in a Block.
+
+A new Block is mined roughly once every 10 minutes.
+
+And each Block has a maximum size of about 2 megabytes.
+
+In other words, blockchain space is Scarce!
+
+image:images/scarcity-scarce.png[Scarcity Scarce GIF]
+
+Because the Block space is limited, transactions must compete with each other to get included.
+
+This is where the Transaction Fees come into play.
+
+image:images/there-aint-nothing-for-free-nothing-is-free.png[There Aint Nothing For Free Nothing Is Free GIF]
+
+Each transaction must include a Fee, which gets awarded to the miner who successfully mines that transaction.
+
+As a result, an interesting market develops.
+
+image:images/leonard-nimoy-spock.png[Leonard Nimoy Spock GIF]
+
+Users (and wallet softwares) must choose a fee that they think is high enough to get their transaction included... but low enough so they're not unnecessarily overpaying.
+
+Striking that balance is a very interesting problem to solve.
+
+image:images/monkey.png[monkey GIF]
+
+The resulting fee market varies drastically over time, depending on the volume of transactions.
+
+When there is very high transaction volume, it takes a super high fee rate to get included.
+
+When volume is low, your transaction can get included with lower fee rates.
+
+The best tool for monitoring the current state of the fee market is Johoe's Bitcoin Mempool Website.
+
+(The "Mempool" is the collection of pending transactions, which are all not yet finalized, and competing to get mined in a block).
+
+link:https://jochen-hoenicke.de/queue/#0,24h[Jochen Hoenicke's Bitcoin Mempool Statistics Website]
+
+Here's a screenshot of the Mempool Fee Data since 2017 - you can see there were some huge prolonged spikes in fees back in 2017 during the Crypto Craze!
+
+image:images/mempool.png[mempool]
+
+The different colors represent different fee rates, for which the unit is "Satoshis per Byte" (remember 100 million Satoshis = 1 Bitcoin).
+
+Notice how nothing here references the value sent - interestingly the value of bitcoin sent actually has no impact on fees!
+
+image:images/shocked-gif-wow.png[shocked gif wow GIF]
+
+Remember what is scarce in the blockchain: the amount of data!
+
+Its not the value of the bitcoin that makes a transaction more expensive, but rather the total data that it uses.
+
+So in summary:
+
+(Total Fee) = (Fee Rate sats/byte) x (Tx Size bytes)
+
+So there are two factors that influence the total fee paid:
+
+. The Fee Rate, which depends on the volume of transactions at the time (and you can choose this to be higher or lower depending on how fast you want it to confirm).
+. Data used in the transaction.
+
+Let's dive into 2:
+
+Look at these two transactions - they are both sending around 4.8 Bitcoin, but the second one uses far more data!
+
+Therefore, assuming both paid the same fee rate, the second one had to pay a higher *total* fee, in order to compensate for all that extra data.
+
+image:images/sample-transaction-1.png[sample-transaction-1]
+
+image:images/sample-transaction-2.png[sample-transaction-2]
+
+Let's take a look at another recent transaction.
+
+This one moved ~2255 BTC (worth ~$20 million), and only paid a fee of 44101 satoshis (worth ~$4)!!
+
+It was able to do this because it only used 4 inputs and 2 outputs, so it didnt use up much data at all!
+
+image:images/sample-transaction-fees-1.png[sample-transaction-fees-1]
+
+Notice above that the Total Fee is 44101 Sats, the Size is 667 B (bytes), and the Fee Rate is 66.1 Sats/Byte.
+
+Let's see if the fee rate the website calculated is correct.
+
+(44101 Sats) / (667 Bytes) = 66.1 Sats/Byte, looks good!
+
+image:images/check.png[Check GIF]
+
+So how can all this help you manage your own wallet?
+
+To demonstrate, imagine there are two faithful bitcoiners, Alice and Bob, each of whom buys $10 of bitcoin every day on @CashApp 😉.
+
+Like good bitcoiners, both of them withdraw all their funds to their own cold storage.
+
+But their methods are slightly different.
+
+Alice withdraws her full balance once every 2 weeks, but Bob withdraws his full balance once every day!
+
+Now imagine 10 weeks later, they each want to deposit all their funds back into @CashApp - who's going to pay more in fees?
+
+Well, lets examine at their wallets.
+
+Alice will have 5 high-value UTXOs to spend, so her transaction will have 5 inputs and 1 output.
+
+But Bob will have 70 low-value UTXOs, so his transaction will have 70 inputs and 1 output!
+
+Bob's transaction is going to take up 14 times more data than Alice's despite it sending the same value!
+
+He's going to have to pay far more in fees!
+
+image:images/dang-it-bobby.png[Dang It Bobby! - King Of The Hill GIF]
+
+In short - always be mindful of your UTXOs, because you'll pay for them later!
+
+In another thread I can talk about how Bob could get around his issue (consolidation transactions), but we'll save that for another time...
+
+Finally, one more question.
+
+What happens if transaction pays too low of a fee rate?
+
+image:images/question.png[Question GIF]
+
+The answer is, it just kinda sits around in the Mempool, until the Mempool empties out.
+
+Sometimes transactions can be pending for hours, days or even weeks, at which point some nodes in the network actually drop the transaction and forget about it
+
+In a follow-up thread, I can discuss some more advanced methods like RBF (replace by fee) and CPFP (child pays for parent), which can help you avoid getting your transactions stuck.
+
+And finally, most bitcoin wallets are good enough now to estimate fees for you, so don't worry!
+
+image:images/monkey-dance.png[Monkey Dance GIF]
+
+To recap, we covered how transactions must compete with their fee rates to get included in blocks, and how fee rates can change based on network conditions.
+
+We also covered how the size of the transaction matters a lot when calculating fees.
+
+And finally we learned a little about wallet management.
+
+Hope you enjoyed the thread! Leave any questions in the comments, and be sure to follow me if you want to stay updated with all my future threads... we're just getting started going down this rabbit hole!!
+
+image:images/alice-rabbithole.png[Alice Rabbithole GIF]
+
+Also, just realized I never explicitly answered the original question - maybe one of you would like to answer it given the knowledge you've gained.
+
+In what situation would a 10,000 BTC transaction pay less in fees than a 0.001 BTC transaction?
+
+If you liked this thread, check out my newest one on Consolidation Transactions, and how to get massive savings on fees!
