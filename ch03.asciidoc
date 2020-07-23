@@ -1,174 +1,159 @@
-== Anatomy of a Bitcoin Transaction
+== Mining and Blockchain
 
-TXID, Outputs, Inputs, Transaction Fees, UTXOs - what do all these terms mean?
+An Introduction to Bitcoin Mining and the Blockchain.
 
-In this thread we will dissect a real bitcoin transaction and I'll explain its main components.
+How does it all work? A thread for beginners.
 
-To expand your background knowledge, read on 👇
+I'm going to take you through a little game, and together we're going to mine a simplified version of a bitcoin block.👇
 
-Let's take a look at random bitcoin transaction I picked from a recent block.
+Before we start, it’s important you have some understanding of what a Hash is.
 
-.Blockstream Block Explorer
-image:images/blockstream.png[Example Transaction, link="https://blockstream.info/tx/3773f1874b380ab8a77e8f1268c40e43cce8ade5a5ae78db4f9526b43f34076b"]
+A Hash is like a data fingerprint that’s calculated using some fancy math.
 
-The top of the page has a bunch of data about the Block it was mined in, the fees paid, and some other stuff, but let's focus on the bottom part of the page, as shown in this screenshot:
+(If this is new, I suggest reading my link:ch01.asciidoc[previous beginner-friendly thread first]).
 
-image:images/sample-transaction.png[sample-transaction]
+You can play around with Hashes using this helpful website (and I'll be using it for our demonstrations here):
 
-The first part you should know about is the Transaction ID, also known as the TXID (circled in red).
+.SHA256 Hash Calculator
+image:images/xorbin.gif[SHA256 Hash Calculator, link=https://xorbin.com/tools/sha256-hash-calculator]
 
-This is used to uniquely identify a transaction, and it comes from taking the SHA-256 Hash of the transaction data twice.
+Let's play!
 
-image:images/sample-transaction-circled.png[sample-transaction-circled]
+Imagine you and I are miners in a simplified bitcoin network.
 
-(Side note, for a primer on what a SHA-256 Hash is, check out link:ch01.asciidoc[my thread on Hash functions]).
+We can make some money if we mine new blocks, but we have to play according to rules, otherwise the other users in the network will reject our blocks.
 
-Next lets look at those two entries on the right. These are the Outputs (recipients) of the transaction.
+image:images/know-the-rules.png[know-the-rules]
 
-The recipients are identified by those jumble of numbers and letters that start with a 3.
+Rules:
 
-These are bitcoin addresses, and you can think of them kinda like email addresses.
+- Max of 2 transactions per block.
+- Whoever mines the block can claim a reward of 1 bitcoin plus the fees of the transactions in that block.
+- The SHA-256 Hash of the block’s contents must start with "00000".
+- Each block must include the Hash of the previous block.
 
-image:images/sample-transaction-circled-1.png[sample-transaction-circled-1]
+image:images/read-the-receipts.png[Read The Receipts! GIF]
 
-We can see there are two addresses that received bitcoin here.
+That's a lot to remember, so it might be easier if we just take a look at the most recent block, which I mined myself.
 
-#0 received 0.2862 BTC
+image:images/block-and-hash.png[block-and-hash]
 
-#1 received 0.40861192 BTC
+A few things to note:
 
-image:images/sample-transaction-circled-2.png[sample-transaction-circled-2]
+- The Block Number 4532 means its the 4532nd block in the entire history of the network.
 
-In software, it's common to count starting from 0, which is why the first Output is labeled as #0, and the second is labeled as #1.
+image:images/block-number.png[block-number]
 
-image:images/sample-transaction-circled-3.png[sample-transaction-circled-3]
+- There are two transactions in the block, each paying a small fee.
 
-Ok so we've identified the TXID and the Outputs, now lets take a look at the Input to this transaction, which is on the left.
+image:images/block-transactions.png[block-transactions]
 
-Transactions can have multiple inputs, but this transaction has just one single Input, worth 0.69561192 BTC.
+- I mined the block, so I got the reward - 1 newly created BTC, plus the 0.003 in fees.
 
-image:images/sample-transaction-circled-4.png[sample-transaction-circled-4]
+image:images/block-reward.png[block-reward]
 
-Now that we've inspected the TXID, the Outputs, and the Input, let's take a step back a summarize what's happening in this transaction.
+- It links the previous block's hash (which starts with five 0's).
 
-Somebody spent 0.69561192 BTC
+image:images/previous-block-hash.png[previous-block-hash]
 
-One address received 0.2862 BTC
-Another address received 0.40861192 BTC
+- And finally at the bottom, you can see the hash of this block also starts with five 0's - so it's valid!
 
-If you're quick at Math, you might realize that the amount Spent is slightly larger than the total amount Received.
+image:images/block-hash.png[block-hash]
 
-0.69561192 - (0.2862 + 0.40861192) = 0.0008
+But there's one more field, the "Nonce" - what's this?
 
-Hmm.. what happened here, was it a mistake?
+The Nonce is actually a meaningless field (you can put any number there).
 
-image:images/frye-stare.png[Frye Stare GIF]
+It's sole purpose is to give you some data to tinker with until your block hashes to something valid.
 
-This missing amount is actually not a mistake at all.
+image:images/button.png[button GIF]
 
-This leftover amount is what's known as the Transaction Fee, and it's a bribe paid to the miners to convince them to mine (finalize) the transaction.
+Take a look what happens if we keep everything the same, but change the Nonce by 1 (we change it from 14885 to 14884).
 
-Higher fee rate = higher incentive for a miner to finalize your transaction.
+The SHA-256 hash at the bottom is completely different. It no longer starts with five 0's, so the block is not valid!
 
-image:images/simpsons-bribe-me.png[Simpsons Bribe Me GIF]
+image:images/modified-block-and-hash.jpg[modified-block-and-hash]
 
-The fee is never explicitly written into the transaction.
+The above, invalid block was one of the many guess-and-check attempts that my software made before finding a valid block.
 
-It's just calculated by subtracting the outputs from the inputs.
+The Nonce I finally found was 14885, and it works to make the block hash to start with 00000.
 
-The miner who mines a block with this transaction gets to claim these fees as their own.
+Hence the final valid block is:
 
-The website has calculated this fee for us and shows it at the top.
+image:images/block-template.png[block-template]
 
-image:images/sample-transaction-fees.png[sample-transaction-fees]
+Alright now I'm going to help YOU mine the next block.
 
-Ok so we've covered the TXID, Outputs, Inputs, and Transaction Fees.
+Let's start by putting together the basics.
 
-But let's dive a little further and explain where that Input came from.
+image:images/block-template-no-txs.png[block-template-no-txs]
 
-You see, when an Output is created, it becomes what we call a UTXO (or Unspent Transaction Output).
+Notice:
 
-You can think of UTXOs like the dollar bills and coins in your physical wallet.
+- We added 1 to the Block Number, so we're at 4533 now.
+- You, the Reader, claim a reward of 1 BTC.
+- We include the previous block's hash
 
-These are the funds you have available to Spend at any given moment.
+image:images/canadian-agree.png[Canadian Agree GIF by CBC]
 
-To spend a UTXO, you put it as an Input to a transaction. 
+But this block isn't complete yet.
 
-image:images/rich-pay-day.png[rich pay day GIF]
+While it *is* legal to have 0 transactions in the block, you might as well include as many as you can so that you can claim some additional fees.
 
-Let's see if we can figure out where our Input came from.
+So let's find some transactions to add.
 
-If we take another look, we'll see the Input has an identifier on it that looks like a TXID with ":1" added to the end.
+image:images/lets-make-money.png[lets-make-money]
 
-image:images/sample-transaction-first-input.png[sample-transaction-first-input]
+Pending transactions get broadcast to you from other participants in the network.
 
-This identifier (txid + :number) has a few different names, some call it a "UTXO-key", or an "outpoint".
+Let's pretend that there are 3 valid pending transactions to choose from:
 
-In our situation it tells us our Input comes from Output #1 of 72a3393bd12a97daae13e1f2a7838a235e8dcf1de7845528afae74e999adaa66.
+- Danny pays Sahil 1 BTC (+0.002 Fee).
+- Sahil pays Sam 2 BTC (+0.001 Fee).
+- Danny pays Kenny 0.5 BTC (+0.003 Fee).
 
-image:images/sample-transaction-first-input.png[sample-transaction-first-input]
+Remember, the max transactions you can include in a block is 2... so which 2 will you choose?
 
-So let's click on that link and see where it takes us!
+Easy, pick the ones with the highest fees, so you can make the most money!
 
-It takes us to a previous transaction.
+Let's add them to your block:
 
-Now take a look at the second Output (Output #1) of this previous transaction.
+Notice how your reward is now 1.005 instead of just 1.
 
-Do you notice anything?
+image:images/block-template.png[block-template]
 
-image:images/sample-transaction-second-output.png[sample-transaction-second-output]
+Ok now that you have your block ready to go, there's one final problem: the hash does not start with 00000!
 
-Look at the amount, it is 0.69561192 BTC, which is exactly the same amount as the Input to our original transaction!
+image:images/edited-block-and-hash.png[edited-block-and-hash]
 
-image:images/sample-transaction-second-output-circled.png[sample-transaction-second-output-circled]
+image:images/edited-block-hash.png[edited-block-and-hash]
 
-You've just done what every bitcoin node does for every transaction before accepting it - you've validated that it is spending the correct amount from a previous output. Nice!
+What to do?
 
-Here's a graphic showing the two transactions - the older one on top, and the newer one on the bottom.
+Well, remember the hash game from my previous thread?
 
-image:images/sample-transaction-links.png[sample-transaction-links]
+You need to start changing that Nonce and checking hashes until you find a valid one!
 
-This linking of outputs to inputs is how the network monitors the history of all transactions, and ensures that no unexpected new coins are created.
+(Or better yet, let your friend's software do it for you!)
 
-Each output can only be spent once!
+image:images/hey-you-toy-tory.png[Hey You Toy Story GIF]
 
-image:images/gus-sorola-rt-podcast.png[gus sorola rt podcast GIF by Rooster Teeth]
+Luckily I have a script that does this.
 
-Make sense? Awesome!
+After running my script for about a second, and trying 705,719 different Nonces, look what I found for you.
 
-But here's a question for you.
+It's a valid block!
 
-Say I only own a single UTXO, worth 0.69561192 BTC, but I want to send my friend @SahilBloom 0.2862 BTC?
+image:images/valid-block-and-hash.png[valid-block-and-hash]
 
-image:images/confused-dogs.png[Confused Dogs GIF]
+Go ahead and submit this to our fake bitcoin network, and everyone will agree that it is indeed valid, and your block will be added to the blockchain.
 
-Well let's go back to the dollar bill analogy and ask the same question.
+This block will be part of the blockchain forever!
 
-Imagine I have a single 10 dollar bill in my wallet, but I want to buy a 5 dollar coffee?
+image:images/infinity-love.png[Infinity Love GIF]
 
-Easy, I give the cashier my 10 dollar bill, and they give me back a 5 dollar bill as Change.
+Oh and you got a reward of 1.005 Bitcoin, congrats!
 
-image:images/change.png[Change GIF]
+image:images/ka-ching-pay-day.png[Ka Ching Pay Day GIF]
 
-Bitcoin uses a similar concept of Change.
-
-For me to pay @SahilBloom 0.2862 using my 0.69561192 UTXO, I'll create a transaction with two Outputs:
-
-- One for 0.2862 to Sahil
-- And one that gives the remaining 0.40861192 change back to me.
-
-image:images/sample-transaction-circled-5.png[sample-transaction-circled-5]
-
-Looks like that's exactly what might have happened in this transaction we dissected!
-
-Although this wasn't actually my transaction - so I can't say for sure which output was the payment and which was the change, but you get the idea.
-
-So let's recap:
-
-We learned about TXIDs, Outputs, Inputs, Fees, UTXOs, Change, and the basic concept of how transactions are linked (Outputs are UTXOs until they become Inputs).
-
-There's a lot more we can discuss regarding Transactions, but I'll end the thread here.
-
-I hope this was a helpful summary of the basics. Let me know in the comments if you have any questions!
-
-image:images/rhyming-leonardo-dicaprio.png[rhyming leonardo dicaprio GIF]
+Anyway, that's a simplified version of bitcoin mining. Hope it was helpful!

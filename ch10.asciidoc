@@ -1,0 +1,112 @@
+== Internet Censorship and Bitcoin
+
+Why Twitter can ban you, but Bitcoin never will.
+
+What are the technical differences between centralized platforms and decentralized networks?
+
+Let's dive in 👇
+
+Over the past few years we've seen a lot of controversial figures get banned from popular websites like @Twitter, @YouTube, @Facebook, and @Instagram.
+
+image:images/ii-topic.png[ii topic GIF]
+
+Let's review the technical details of how these sites work and see why banning people is so easy on websites, then compare that to a decentralized network to see the difference.
+
+Let's look at the centralized platform *link:https://twitter.com[@Twitter]* as our first example.
+
+
+image:images/twitter-bird.png[twitter-bird]
+
+When your phone opens the Twitter app, or you type "*link:https://twitter.com[twitter.com]*" into your web browser, your device sends an electrical signal out to the Internet saying:
+
+"Give me the data at link:https://twitter.com[twitter.com]".
+
+image:images/give-it-to-me-now.png[Give it to Me Now]
+
+This request for information gets transmitted through the Internet (need a separate thread on how that works 😂), but it eventually ends up at one of Twitter's Servers.
+
+A Server is just a fancy name for a computer that's connected to the Internet and specialized to run websites.
+
+image:images/nitrado-last-oasis-servers.png[Nitrado Last Oasis Servers GIF]
+
+This Server then runs some code (checks your username, compiles your timeline of cat pictures, figures out what your new notifications are, etc), and then sends all that data back to you.
+
+image:images/good-morning-funny-animals.png[Good Morning Funny Animals GIF]
+
+Here's a nice diagram of the process.
+
+In this picture we see how 3 separate users (called "Clients") all go through the Internet to connect to the same central Server.
+
+This is known as the "Client-Server" model and is how just about every website is run today.
+
+image:images/server-client-model.png[server-client-model]
+
+So the Server responds and now you have a wonderful timeline of cats, but oh no, your favorite tweeter has been banned!
+
+What happened?
+
+The key here is that Twitter 100% controls all the link:https://twitter.com[twitter.com] servers, so they have full control over who sees what data.
+
+image:images/yourebanned-yourebanned.png[YOUAREBANNED YOUREBANNED GIF]
+
+So what's different about Bitcoin?
+
+What's all this talk about "Decentralization"?
+
+Let's dive into how the Bitcoin network does things.
+
+image:images/bitcoin-hodl.png[Bitcoin Hodl GIF]
+
+Bitcoin kinda has Servers too, but we call them "Nodes", and anybody can run one.
+
+In fact there are thousands of Bitcoin Nodes continuously running all over the world.
+
+Some publicly share their location (IP Address), while other stay private (using Tor).
+
+image:images/world-spinning.png[world spinning GIF by Walter Newton]
+
+In fact, YOU, right now, with a modern laptop and decent Internet connection can download the Bitcoin code and run your own Node.
+
+It only takes a day or two for your computer to get caught up with history of all transactions (blockchain), and become an active Node in the network.
+
+image:images/you-you-you-you.png[You You You You GIF]
+
+But if there is no central Bitcoin Server, then what happens when somebody wants to send a Bitcoin transaction?
+
+How do they know where to send it?
+
+Well here's the magic - they just need to find ONE of the nodes to send it to.
+
+image:images/only-one.png[Only One Alone There Can Be Only One GIF]
+
+The Bitcoin Node software is designed to find and connect to other Bitcoin Nodes around the world.
+
+When a transaction makes it to one of the Nodes, this Node will forward it to all its friends (peers), who will forward it to all their peers and eventually the whole network has it.
+
+image:images/p2p.png[p2p]
+
+Since there is no Central Server - this makes Censorship really really hard, if not impossible.
+
+How would ban somebody from using Bitcoin?
+
+image:images/spongebob-squarepants.png[Spongebob Squarepants GIF by swerk]
+
+You can ensure you'll never be blocked from the Bitcoin network by just running your own Bitcoin Node.
+
+But even if you don't run your own Node - banning anybody from Bitcoin is basically infeasible.
+
+To ban someone, you'd have to somehow contact and convince the majority of the many thousands of nodes all around the world to all change their software.
+
+Some of these Nodes haven't upgraded their software in years.
+
+Some are on the Dark Web.
+
+And most wouldn't even listen to you anyway.
+
+image:images/gordan-ramsay-piss-off.png[Gordon Ramsay Piss Off GIF]
+
+So in summary, it's really easy to get banned from a website, platform, or service that uses the centralized Client-Server model.
+
+But it's basically impossible to get banned from a truly decentralized peer-to-peer network like Bitcoin.
+
+image:images/braveheart.png[Braveheart GIF]

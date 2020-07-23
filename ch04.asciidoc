@@ -1,156 +1,155 @@
-== Transaction Fees in Bitcoin
+== Bitcoin's Difficulty Adjustment
 
-Ever wonder why bitcoin transaction fees are sometimes high, sometimes low?
+How does the bitcoin network ensure that blocks continue to get mined once every 10 minutes on average?
 
-Did you know that sending 0.001 bitcoin can cost more than sending 10,000 bitcoins depending on the situation?
+In this thread I'll explain the Difficulty Adjustment, and why it might be the most genius part of bitcoin 👇
 
-I'll explain all this below 👇
+If you remember my thread on bitcoin mining, we discussed how the miners are trying to construct a block that hashes to something that starts with a bunch of 0's.
 
-For transactions to be finalized, they must be included in a Block.
+So I have a question for you, which is harder:
 
-A new Block is mined roughly once every 10 minutes.
+. Finding some data that hashes to something beginning with one zero ("0").
+. Or finding some data that hashes to something beginning with 10 zeros ("0000000000").
 
-And each Block has a maximum size of about 2 megabytes.
+image:images/question-mark-what.png[Question Mark What GIF by The BarkPost]
 
-In other words, blockchain space is Scarce!
+If you said number two, you're right!
 
-image:images/scarcity-scarce.png[Scarcity Scarce GIF]
+Go ahead and try it yourself with this online hash calculator if you like.
 
-Because the Block space is limited, transactions must compete with each other to get included.
+.SHA256 Hash Calculator
+image:images/xorbin.gif[SHA256 Hash Calculator, link:https://xorbin.com/tools/sha256-hash-calculator]
 
-This is where the Transaction Fees come into play.
+Look, in just about 30 seconds of clicking, I found a hash that starts with a 0.
 
-image:images/there-aint-nothing-for-free-nothing-is-free.png[There Aint Nothing For Free Nothing Is Free GIF]
+Super easy, I just kept typing a bunch of b's and trying each one 
 
-Each transaction must include a Fee, which gets awarded to the miner who successfully mines that transaction.
+image:images/bbbbb-sha256-hash.png[bbbbb-sha256-hash]
 
-As a result, an interesting market develops.
+But finding a hash that starts with 10 zeros is a whole new ballgame. It would take me forever trying to just click around on that website.
 
-image:images/leonard-nimoy-spock.png[Leonard Nimoy Spock GIF]
+I'd definitely need some custom hardware, and probably a whole factory of them.
 
-Users (and wallet softwares) must choose a fee that they think is high enough to get their transaction included... but low enough so they're not unnecessarily overpaying.
+image:images/single-bitcoin-miner.jpg[single-bitcoin-miner]
 
-Striking that balance is a very interesting problem to solve.
+In fact, this is exactly what's going on in the bitcoin network right now.
 
-image:images/monkey.png[monkey GIF]
+Look at the hash of the most recent bitcoin block... it starts with 19 zeros!!
 
-The resulting fee market varies drastically over time, depending on the volume of transactions.
+image:images/block-639-031.png[block-639-031]
 
-When there is very high transaction volume, it takes a super high fee rate to get included.
+But mining a bitcoin block wasn't always this hard. Check out block 100, back in the good old days in 2009.
 
-When volume is low, your transaction can get included with lower fee rates.
+This block hash only starts with 8 zeros.
 
-The best tool for monitoring the current state of the fee market is Johoe's Bitcoin Mempool Website.
+It was so much easier to mine blocks back then - people could mine them with just their simple desktop computers.
 
-(The "Mempool" is the collection of pending transactions, which are all not yet finalized, and competing to get mined in a block).
+image:images/block-100.png[block-100]
 
-link:https://jochen-hoenicke.de/queue/#0,24h[Jochen Hoenicke's Bitcoin Mempool Statistics Website]
+So what changed? And how did it change?
 
-Here's a screenshot of the Mempool Fee Data since 2017 - you can see there were some huge prolonged spikes in fees back in 2017 during the Crypto Craze!
+This is... the Difficulty Adjustment!
 
-image:images/mempool.png[mempool]
+The number of leading zeros required for a block's hash to be valid is designed to change over time.
 
-The different colors represent different fee rates, for which the unit is "Satoshis per Byte" (remember 100 million Satoshis = 1 Bitcoin).
+In other words, the mining difficulty adjusts.
 
-Notice how nothing here references the value sent - interestingly the value of bitcoin sent actually has no impact on fees!
+image:images/hack-my-life-kevin.png[hack my life kevin GIF by truTV]
 
-image:images/shocked-gif-wow.png[shocked gif wow GIF]
+Imagine if the bitcoin network did not adjust the difficulty.
 
-Remember what is scarce in the blockchain: the amount of data!
+Imagine if the network had required just 8 leading zeros for all block hashes, forever.
 
-Its not the value of the bitcoin that makes a transaction more expensive, but rather the total data that it uses.
+What would happen?
 
-So in summary:
+image:images/hmmm-thinking.png[Hmmm Thinking GIF]
 
-(Total Fee) = (Fee Rate sats/byte) x (Tx Size bytes)
+Well, as the prices went up, more and more miners joined the network, there would be more total computer power trying to mine blocks...
 
-So there are two factors that influence the total fee paid:
+As a result, blocks would start getting mined very quickly. We might start getting a block once every minute, or even every second.
 
-. The Fee Rate, which depends on the volume of transactions at the time (and you can choose this to be higher or lower depending on how fast you want it to confirm).
-. Data used in the transaction.
+image:images/family-guy-woah.png[Family Guy Woah GIF]
 
-Let's dive into 2:
+Alternatively, what if a bunch of miners went out of business or stopped trying? There might not be enough total computing power to find blocks quickly, and blocks might start taking really really long to find, grinding the network to a halt.
 
-Look at these two transactions - they are both sending around 4.8 Bitcoin, but the second one uses far more data!
+image:images/sloth-walking-slow.png[Sloth Walking Slow GIF]
 
-Therefore, assuming both paid the same fee rate, the second one had to pay a higher *total* fee, in order to compensate for all that extra data.
+Luckily, Satoshi had a brilliant idea. Let the mining difficulty adjust based on network conditions, so that the average block time stays at 10 minutes.
 
-image:images/sample-transaction-1.png[sample-transaction-1]
+Here's how it works:
 
-image:images/sample-transaction-2.png[sample-transaction-2]
+Every block has a timestamp in its header, which states approximately at what time the block was mined.
 
-Let's take a look at another recent transaction.
+image:images/block-639-031-timestamp.png[block-639031-timestamp]
 
-This one moved ~2255 BTC (worth ~$20 million), and only paid a fee of 44101 satoshis (worth ~$4)!!
+And once every 2016 blocks (~2 weeks), each node in the network performs a calculation... 
 
-It was able to do this because it only used 4 inputs and 2 outputs, so it didnt use up much data at all!
+image:images/zach-galifianakis-reaction.png[Zach Galifianakis Reaction GIF]
 
-image:images/sample-transaction-fees-1.png[sample-transaction-fees-1]
+They look at the timestamp of the current block, and compare it to the timestamp of the block from 2015 blocks ago.
 
-Notice above that the Total Fee is 44101 Sats, the Size is 667 B (bytes), and the Fee Rate is 66.1 Sats/Byte.
+They then calculate the total time it took to mine all those blocks in that 2016 block window.
 
-Let's see if the fee rate the website calculated is correct.
+Call this time T
 
-(44101 Sats) / (667 Bytes) = 66.1 Sats/Byte, looks good!
+image:images/t.png[t GIF by GIPHY Studios Originals]
 
-image:images/check.png[Check GIF]
+If every block took an average of 10 minutes to find, then this calculated time T should be exactly 2 weeks.
 
-So how can all this help you manage your own wallet?
+Why 2 weeks?
 
-To demonstrate, imagine there are two faithful bitcoiners, Alice and Bob, each of whom buys $10 of bitcoin every day on @CashApp 😉.
+(10 minutes / block) * (2016 blocks) = 20160 minutes
 
-Like good bitcoiners, both of them withdraw all their funds to their own cold storage.
+20160 minutes = 336 Hours = 14 days = 2 weeks!
 
-But their methods are slightly different.
+image:images/2-weeks.png[2 weeks GIF by AMAs]
 
-Alice withdraws her full balance once every 2 weeks, but Bob withdraws his full balance once every day!
+So here is the calculation that every node in the network performs:
 
-Now imagine 10 weeks later, they each want to deposit all their funds back into @CashApp - who's going to pay more in fees?
+If T is greater than 2 weeks, it means blocks were mined slower than expected, and the difficulty should decrease.
 
-Well, lets examine at their wallets.
+Instead of requiring 19 leading zeros for block hashes, they might bump it down to 18
 
-Alice will have 5 high-value UTXOs to spend, so her transaction will have 5 inputs and 1 output.
+image:images/just-to-make-things-easier-enabuns.png[Just To Make Things Easier Enabuns GIF]
 
-But Bob will have 70 low-value UTXOs, so his transaction will have 70 inputs and 1 output!
+If T is less than 2 weeks, it means blocks were mined faster than expected, and the difficulty should increase.
 
-Bob's transaction is going to take up 14 times more data than Alice's despite it sending the same value!
+Instead of requiring 19 leading zeros, they might bump it up to 20.
 
-He's going to have to pay far more in fees!
+image:images/season-4-hollywood.png[season 4 hollywood GIF by PBS]
 
-image:images/dang-it-bobby.png[Dang It Bobby! - King Of The Hill GIF]
+Sometimes the time is close enough to 2 weeks, that no difficulty change is made at all.
 
-In short - always be mindful of your UTXOs, because you'll pay for them later!
+But how do we ensure that all nodes arrive to the same conclusion on this calculation?
 
-In another thread I can talk about how Bob could get around his issue (consolidation transactions), but we'll save that for another time...
+Well, they all are looking at the same blockchain, and they are all running the same software, so they are guaranteed to arrive at the same conclusion.
 
-Finally, one more question.
+Pretty genius if you ask me.
 
-What happens if transaction pays too low of a fee rate?
+image:images/genius-think.png[Genius Think GIF]
 
-image:images/question.png[Question GIF]
+So there you have it... that's how the difficulty adjustment works.
 
-The answer is, it just kinda sits around in the Mempool, until the Mempool empties out.
+But why does it matter so much?
 
-Sometimes transactions can be pending for hours, days or even weeks, at which point some nodes in the network actually drop the transaction and forget about it
+What's so important about making sure we have 10-minute block intervals?
 
-In a follow-up thread, I can discuss some more advanced methods like RBF (replace by fee) and CPFP (child pays for parent), which can help you avoid getting your transactions stuck.
+In my opinion, the biggest implication of this is that it ensures the supply issuance of bitcoin stays at an expected rate.
 
-And finally, most bitcoin wallets are good enough now to estimate fees for you, so don't worry!
+Remember, each new block creates new bitcoins.
 
-image:images/monkey-dance.png[Monkey Dance GIF]
+Faster or slower block times affect the rate of new bitcoins entering the market.
 
-To recap, we covered how transactions must compete with their fee rates to get included in blocks, and how fee rates can change based on network conditions.
+In every other asset class, when the price goes UP, more of it gets produced, and the supply begins to increase more quickly, which ultimately drives the price back DOWN.
 
-We also covered how the size of the transaction matters a lot when calculating fees.
+@saifedean has explained this wonderfully in his book link:https://www.amazon.com/Bitcoin-Standard-Decentralized-Alternative-Central/dp/1119473861[The Bitcoin Standard].
 
-And finally we learned a little about wallet management.
+But bitcoin fixes this.
 
-Hope you enjoyed the thread! Leave any questions in the comments, and be sure to follow me if you want to stay updated with all my future threads... we're just getting started going down this rabbit hole!!
+We now have a monetary asset who's supply issuance is on a FIXED schedule, for all of eternity, no matter how hard people try to create more.
 
-image:images/alice-rabbithole.png[Alice Rabbithole GIF]
+We've never seen a monetary commodity like this in history, and this is why Bitcoin is a massive breakthrough in monetary technology.
 
-Also, just realized I never explicitly answered the original question - maybe one of you would like to answer it given the knowledge you've gained.
+Get you some and a spacesuit. We're going to the moon.
 
-In what situation would a 10,000 BTC transaction pay less in fees than a 0.001 BTC transaction?
-
-If you liked this thread, check out my newest one on Consolidation Transactions, and how to get massive savings on fees!
+image:images/space-dance-nasa.png[Space Dance Nasa GIF]

@@ -1,103 +1,140 @@
-== Bitcoin Consolidation Transactions
+== Bitcoin Addresses
 
-These can help you Save Money on Fees!
+How do they work? Where do they come from? Why do some look different than others?
 
-What are they? How do they work? 👇
+Thread 👇
 
-Before we start, this thread requires a little bit of background knowledge.
+When bitcoin gets sent, it always gets sent to an Address.
 
-If you're new, I recommend checking out the threads on link:ch03.asciidoc[Bitcoin Transactions] and link:ch04.asciidoc[Transaction Fees] if you haven't already.
+You can think of an Address kind of like a Lock.
 
-To explain Consolidation Transactions, lets consider somebody named Alice, who runs an online store selling crystals.
+When we say that an Address "has some bitcoin on it", what we really mean is that a certain amount of bitcoin is locked to that Address.
 
-Her crystal bundles sell for 0.01 BTC each, and she generally sells about 1 per day.
+image:images/locked-up-secure.png[Lock]
 
-image:images/crystals-lady-gaga.png[Crystals Lady Gaga GIF]
+Like most Locks can only be opened by one key, bitcoin at most Addresses can only be unlocked by one person.
 
-Now imagine that a year has gone by, and she'd like to spend all of her Bitcoin to buy a new car!
+But Locks can be more complex, and so can Addresses, sometimes requiring
+cooperation from multiple people or even knowledge of special secrets, in order to unlock them.
 
-image:images/car.png[car GIF]
+image:images/locks.jpg[locks]
 
-Before she makes this purchase, let's look at the contents of her wallet.
+Let's dive into the most basic types of Address.
 
-1 receive per day for 365 days, means her wallet will contain 365 UTXO's, each worth 0.01 BTC.
+Let's pretend our friend Alice owns this Address:
 
-That's a lot of UTXOs!
+1mEBFZ2iGmrDL6GXmrCAM8ZJdg7XVYdCM
 
-image:images/friends-ross-geller.png[Friends Ross Geller GIF]
+The "1" at the beginning tells us the “version” of the Address, or the "type of lock".
 
-Lets see how much data her transaction will use:
+Addresses that start with a 1 are the most basic and are called "Pay to Public Key Hash" addresses, and require just one signature in order to unlock them.
 
-365 inputs each cost 68 bytes
+image:images/only-one-vacancy.png[Only One Vacancy GIF]
 
-1 output costs 32 bytes
+These are called "Pay to Public Key Hash" ("P2PKH") addresses because most of the rest of that data in the Address is a Hash of Alice’s Public Key.
 
-10 bytes of overhead
+For some background on what Public Keys and Signatures are, I'd suggest checking out my link:ch08.asciidoc[previous thread].
 
-So total bytes = (365*68) + (1*32) + 10 = 24,862 Bytes!
+For background on what a Hash is, check out link:ch01.asciidoc[this one].
 
-Now imagine the current bitcoin transaction volume is above average, so to get a fast confirmation she needs to pay a fee rate of 200 sats/byte.
+You might be wondering why the address has the Hash of Alice's Public Key, and not just the actual Public Key.
 
-The total cost of her transaction will be:
+Good question.
 
-(24,862 bytes) * (200 sats/byte) = 4,972,400 sats
+image:images/confused-emoji.png[Confused Emoji GIF]
 
-Thats about $450, yikes!!
+In fact, original bitcoin addresses were exactly that - "Pay to Public Key" (without the hash).
 
-image:images/expensive-real-housewives.png[Expensive Real Housewives GIF]
+It wasn't until a little later that they realized hashing the public key provides some additional security benefits that make it more future-proof, so "P2PKH" became the standard.
 
-Luckily, Alice knows about Consolidation Transactions!
+image:images/3d-secure-green.png[3d Secure Green GIF]
 
-She knew she was getting ready to make a big purchase, so about two weeks before purchasing her car, she fires off a Consolidation Transaction within her wallet.
+So we have this Address that has the Hash of Alice's Public Key in it.
 
-What this means is that she simply sends her entire balance to herself, but pays a super low fee rate!
+How does Alice spend from this Address?
 
-This transaction will still be 24,862 bytes, but she'll pay a fee rate of only 2 sats/byte.
+To send a transaction, she needs to produce 2 things:
 
-(24,862 bytes) * (2 sats/byte) = 49,472 sats
+- Her actual Public Key
+- A Signature of the spending transaction's data (signed by her Private Key)
 
-~= $4.50
+When Alice produces this data, she will attach it to her Transaction.
 
-By sending her own bitcoin to herself, she is essentially turning her 365 UTXOs into a single UTXO.
+Then all the Nodes' software in the bitcoin network will check to make sure its valid.
 
-It's kind of like going to the bank and trading in 400 quarters for a single 100 dollar bill.
+image:images/bitcoin-verify.png[Bitcoin Verify GIF by DanHeld]
 
-image:images/all-about-the-benjamins-dance.png[all about the benjamins dan...]
+They will check:
 
-The tradeoff here is that this Consolidation Transaction will take a long time to confirm (because of its Low Fee Rate). It might take days or even a week to confirm.
+- Does hashing the Public Key she provided equal the Hash thats in the Address?
+- Is the Signature valid for that Public Key?
 
-But Alice is willing to make that tradeoff, because she has plenty of time, and knows about the massive savings.
+image:images/check-it-charlie-sheen.png[Check It Charlie Sheen GIF]
 
-image:images/life-is-just-a-series-of-trade-offs.png[Life Is Just A Series Of Tra...]
+If these are both true, then Alice's transaction will be accepted.
 
-Now when Alice is ready to purchase her Car, she has prepared her wallet, and her wallet only has a single UTXO, worth 3.65 BTC.
+She will have successfully "unlocked" her Address and spent from it!
 
-Now lets look at her transaction to the car seller:
+image:images/kim-kardashian.png[Kim Kardashian GIF]
 
-1 Input costs 68 bytes
+Great so we've covered the most basic type of Address version: "Pay to Public Key Hash", that starts with a "1".
 
-1 Output costs 32 bytes
+What about the other ones?
 
-10 bytes of overhead
+The next type are addresses that start with a "3", like this one:
 
-68 + 32 + 10 = 110 bytes
+32XsF8Ge2goSWiHKfwakMwQXTHawehzoFV
 
-She'd like this transaction to confirm quickly, so she'll pay a high fee rate of 200 sats/byte.
+This is called a "Pay to Script Hash" address, and it allows for really awesome complex spending conditions.
 
-(110 bytes) * (200 sats/byte) = 22,000 sats
+It gets it's name because the data encodes a Hash of a computer Script. Thats right - a miniature computer program!
 
-~= $2 !!
+image:images/coding-high-resolution.png[coding high resolution GIF by xponentialdesign]
 
-image:images/kd-kevin.png[KD Kevin GIF]
+If Alice wants to spend from one of these Addresses, the following needs to happen:
 
-So to recap, without consolidation, Alice would have spent $450 dollars on a single transaction to purchase her car.
+- She must produce the actual Script that hashes to the data in the Address
+- She must produce any signatures or other secret information that the Script requires.
 
-But by preemptively doing a Single consolidation transaction (and being patient enough to wait), she spent $4.50 on the consolidation and $2 on the purchase!
+When a bitcoin Node gets this data along with the transaction, they will run the computer program Alice provides along with the Signatures / Secrets she includes.
 
-So by maintaining her wallet properly and performing a single Consolidation transaction, Alice was able to save about $443 on transaction fees.
+The program must evaluate to True in order for the transaction to be valid.
 
-image:images/serena-williams-applause.png[serena williams applause GIF]
+image:images/check-mark-verified.png[Check Mark Verified GIF]
 
-That's the basics of how Consolidation transactions can create huge savings.
+That may sound a little bit vague, but it's because these types of Addresses can encode all types of fancy Scripts.
 
-Hope it makes sense.
+The most common one is a "Multi-Signature" script, which requires Signatures from multiple different parties in order to Spend.
+
+image:images/high-five-team-work.png[high five team work GIF]
+
+Other types of Scripts can include Timelocks (Bitcoin locked for a certain amount of time) and many more possibilities, which I can cover in other threads.
+
+image:images/possibilities.png[Possibilities GIF]
+
+Finally, you may have also seen addresses that look like this:
+
+bc1qwqdg6squsna38e46795at95yu9atm8azzmyvckulcc7kytlcckxswvvzej
+
+These, which start with "bc" are called "Segregated Witness" addresses, and they have similar functionality to the previous ones I described.
+
+The special thing about "Segwit" addresses is that they save money on Fees.
+
+When you spend from them, you don't get charged for the Signature data (remember in bitcoin you pay for data!).
+
+image:images/gif-by-qap.png[GIF by QAP]
+
+So to recap, we covered 3 types of addresses:
+
+- Pay to Public Key Hash ("P2PKH") (1 key required).
+- Pay to Script Hash ("P2SH") (Mini computer script required).
+- Segregated Witness ("Segwit") (Same possibilities as above, but save money on fees).
+
+Those are the basics of Bitcoin Addresses!
+
+We can dive deeper in further threads, but I'll end it here.
+
+Let me know your questions in the comments!
+
+Also if you're interested, subscribe to my email list here:
+link:https://hive-mind.xyz/subscribe/dannydiekroeger[Danny's Email List]
