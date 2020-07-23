@@ -1,1 +1,121 @@
 == Replace-By-Fee (RBF) and Child-Pays-For-Parent (CPFP)
+
+How do I speed up my bitcoin transaction?
+
+=== Part 1: Child Pays for Parent (CPFP)
+
+What is "CPFP" and how you can use it to get your transaction confirmed more quickly 👇
+
+Imagine you send some bitcoin to your link:https://twitter.com/CashApp[@CashApp] account and pay a typical transaction fee of 10 sats/byte.
+
+But then, oh no! A bunch of new transactions get added to the network, causing a fee spike.
+
+image:images/transaction-fees-graph-spike.png[Fee Spike]
+
+When you broadcasted your transaction, 10 sats/byte seemed like plenty high of a fee.
+
+And at the time it was.
+
+But all those new transactions were unexpectedly added quickly, and they bid higher and higher fees (20, 40, even 80 sats/byte)!
+
+image:images/auction-wars.png[Auction Wars GIF]
+
+(For some background on why more volume of transactions causes higher fees, you can check out link:ch07.asciidoc[my thread on transaction fees]).
+
+Now your transaction has a low fee compared to all these new ones, so it is stuck behind them.
+
+It might not get confirmed for several hours!
+
+image:images/sad-pikachu.png[Sad Pikachu GIF]
+
+But don't lose hope! There's a way to speed up your transaction.
+
+Let's dive in.
+
+image:images/superman-take-off-shirt.png[Superman Taking Off The Shirt GIF]
+
+Let's examine your transaction. We'll call this the "Parent" transaction.
+
+Your transaction likely had two Outputs:
+
+. Output to your link:https://twitter.com/CashApp[@CashApp] account.
+. Change output back to your wallet.
+
+image:images/parent-transaction.png[Parent Transaction]
+
+(If you're not sure what an Output is, I suggest reading my thread on link:ch05.asciidoc[the Anatomy of a Transaction first]).
+
+So your Parent transaction is stuck with a low fee... what to do?
+
+The trick here is to create a new a transaction.
+
+This new transaction, called the "Child", SPENDS the Change output from the old transaction to yourself.
+
+But... it pays a much higher fee (say, 200 sats/byte).
+
+image:images/parent-child-transaction-link.png[Parent-Child Transaction link]
+
+Now instead of having 1 transaction sitting unconfirmed in the mempool, you have 2 transactions.
+
+How does this help you?
+
+image:images/confused-emoji.png[Confused Emojis GIF]
+
+Well, the miners reallllly want to mine your second transaction - you paid a juicy high fee of 200 sats/byte!
+
+However, in order for them to mine that second transaction, they also have to include your first one, which had a super low fee of 10 sats/byte.
+
+image:images/annotated-parent-transaction.png[Annotated Parent Transaction]
+image:images/annotated-child-transaction.png[Annotated Child Transaction]
+
+Because the Child spends one of the Parent's outputs, the Child cannot be mined without the Parent.
+
+To get the juicy Child's high fee, the miners need to include the low-fee Parent.
+
+image:images/parent-child-transaction.png[Parent Child Transaction]
+
+So the miners will actually do a calculation to figure out the effective fee rate of your two transactions.
+
+The Parent transaction paid:
+
+_(10 sats/byte)*(142 bytes) = 1420 sats_
+
+The Child transaction paid:
+
+_(200 sats/byte)*(110 bytes) = 22000 sats_
+
+_Total sats paid = 23420_
+
+_Total bytes = 252_
+
+_Effective fee rate = (23420 sats) / (252 bytes) =~ 93 sats/byte !_
+
+image:images/effective-fee-child-parent-transaction.png[Effective Fee]
+
+The miners want your Child transaction but in order to get it they need to include your Parent.
+
+So the two are treated as a package who's fee rate balances out to 93 sats/byte.
+
+This effective fee rate is now plenty high to outbid those other transactions!
+
+image:images/transaction-fees-graph-spike-1.png[Transaction Fees Graph Spike]
+
+The Child's high fee helped to boost the Parent's low fee. In other words, the Child paid for the Parent.
+
+You watch happily as your transactions get mined in the next block, and your deposit successfully appears in your link:https://twitter.com/CashApp[@CashApp] account.
+
+image:images/money-kaching.png[Money Kaching GIF]
+
+Anyway, there's a summary of CPFP!
+
+CPFP is just one technique to speed up your transaction when an unexpected fee spike occurs.
+
+The one caveat is that your Parent transaction must have a Change output available for you to do this with.
+
+Another technique to speed up transactions is called Replace By Fee (RBF), but I will cover that in a separate thread.
+
+Hope you enjoyed this one!
+
+It's also worth noting that you can perform CPFP on any payment you receive as well (it doesn't have to be a change output from a Spend).
+
+As long as you own a single output from the transaction, you can create a child transaction that accelerates the Parent.
