@@ -112,10 +112,78 @@ CPFP is just one technique to speed up your transaction when an unexpected fee s
 
 The one caveat is that your Parent transaction must have a Change output available for you to do this with.
 
-Another technique to speed up transactions is called Replace By Fee (RBF), but I will cover that in a separate thread.
-
-Hope you enjoyed this one!
-
 It's also worth noting that you can perform CPFP on any payment you receive as well (it doesn't have to be a change output from a Spend).
 
 As long as you own a single output from the transaction, you can create a child transaction that accelerates the Parent.
+
+Another technique to speed up transactions is called Replace By Fee (RBF), which is covered below.
+
+=== Part 2: Replace By Fee (RBF)
+
+What is "RBF" and how you can use it to get your transaction confirmed more quickly.
+
+Imagine you discovered some old bitcoin laying around in an link:https://twitter.com/ElectrumWallet[@ElectrumWallet], and the price of Bitcoin is up 1,000% on the day, so you'd like to deposit it all to your link:https://twitter.com/CashApp[@CashApp] account in order to sell immediately (shame on you! never sell!).
+
+image:images/rich-man-homer.png[Rich Man Homer GIF]
+
+But last time you sent a transaction, the network had a huge fee spike immediately afterwards and your transaction was stuck unconfirmed for a while.
+
+You had to create a second transaction (using CPFP) to speed up your first one.
+
+But that was annoying last time.
+
+Why couldn't you just REPLACE the original one with a new transaction that paid a higher fee?
+
+This would be ideal!
+
+image:images/will-ferrell-lol.png[will ferrell lol GIF by NBA]
+
+The problem is if you try to replace your original transaction, the Bitcoin Nodes will reject it!
+
+Since they already have a record of your first transaction, the new replacement will look like an attempt to spend the same coins twice.
+
+image:images/he-is-cheating.png[He's Cheating GIF]
+
+Here's where RBF comes into play.
+
+RBF lets you encode a little signal in your original transaction that tells the nodes:
+
+"Hey, let me be replaced in the future if my sender needs to pay a higher fee!".
+
+Most Nodes understand this message.
+
+From a deeper technical perspective, you signal it by setting the "nSequence" field on one of your inputs to something less than 0xfffffffe, but its ok if this part doesn't really make sense :).
+
+image:images/paris-hilton-thats-hot.png[paris hilton thats hot GIF]
+
+But don't worry, some wallets make it easy - like in link:https://twitter.com/ElectrumWallet[@ElectrumWallet], you can enable this by going to Tools -> Electrum Preferences, and then check the box:
+
+(Note, you must do this BEFORE sending your original transaction).
+
+image:images/electrum-rbf-settings-option.png[Electrum RBF Settings Option]
+
+Now what happens when you send a transaction and there's immediately an unexpected fee spike?
+
+You can simply recreate the same transaction, but this time with a higher fee, and submit it to the network!
+
+Electrum helps you do this easily by clicking on the transaction like so:
+
+image:images/electrum-bump-fee-option.png[Electrum Bump Fee Option]
+image:images/electrum-bump-fee-dialog.png[Electrum Bump Fee Dialog]
+
+This new transaction will be the same as your original one, except it pays a higher fee.
+
+Since your original transaction signaled RBF, the Nodes will accept your new higher-fee one and ditch your old lower-fee one.
+
+image:images/so-excited-joy.png[So Excited Joy GIF by GIPHY]
+
+Now you don't have to worry about those unexpected fee spikes (you can just leave RBF enabled by default).
+
+What do ya'll think? What are the tradeoffs to enabling RBF vs not?
+To me it seems like mostly a win, and there isn't much downside to enabling RBF on all your transactions.
+
+The biggest downside it seems is that people you're sending to will be less trustworthy of your unconfirmed transactions (because they can be replaced).
+
+But most merchants are conditioned to not accept unconfirmed transactions anyway, so this isn't much of a loss.
+
+That's RBF in a nutshell, hope it was informative.
