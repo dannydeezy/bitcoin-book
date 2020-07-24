@@ -1,111 +1,121 @@
-== Private Keys, Public Keys, and Digital Signatures
+== Replace-By-Fee (RBF) and Child-Pays-For-Parent (CPFP)
 
-Private Keys, Public Keys, and Digital Signatures.
+How do I speed up my bitcoin transaction?
 
-What do all these terms mean?
+=== Part 1: Child Pays for Parent (CPFP)
 
-Here's a high level overview of the basics, and how they help us do cool things especially in bitcoin 👇
+What is "CPFP" and how you can use it to get your transaction confirmed more quickly 👇
 
-A Private Key is just secret number.
+Imagine you send some bitcoin to your link:https://twitter.com/CashApp[@CashApp] account and pay a typical transaction fee of 10 sats/byte.
 
-Thats all.
+But then, oh no! A bunch of new transactions get added to the network, causing a fee spike.
 
-It's just a really large random number - so large that it can't be guessed by anyone.
+image:images/transaction-fees-graph-spike.png[Fee Spike]
 
-image:images/numbers-crunching.png[Numbers Crunching GIF]
+When you broadcasted your transaction, 10 sats/byte seemed like plenty high of a fee.
 
-In bitcoin, private keys can be any number between 0 and 2^256.
+And at the time it was.
 
-To get a sense of how many choices there are, 2^256 is roughly the number of atoms in the known universe.
+But all those new transactions were unexpectedly added quickly, and they bid higher and higher fees (20, 40, even 80 sats/byte)!
 
-image:images/galaxy-knowledge.png[Galaxy Knowledge GIF]
+image:images/auction-wars.png[Auction Wars GIF]
 
-So if you use a good random number generator to pick a number between 0 and 2^256, it's basically impossible for anyone to guess what the number is.
+(For some background on why more volume of transactions causes higher fees, you can check out link:ch07.asciidoc[my thread on transaction fees]).
 
-image:images/its-a-secret.png[It&#39;s A Secret GIF]
+Now your transaction has a low fee compared to all these new ones, so it is stuck behind them.
 
-Once you have a Private Key, you can then calculate its Public Key.
+It might not get confirmed for several hours!
 
-You do this by multiplying the Private Key by a set number that everyone has agreed upon (we call this set number G - the "Generator" point).
+image:images/sad-pikachu.png[Sad Pikachu GIF]
 
-image:images/purple-mark.png[Purple Mark GIF]
+But don't lose hope! There's a way to speed up your transaction.
 
-Now there are a couple important catches here.
+Let's dive in.
 
-This isn't regular multiplication.
+image:images/superman-take-off-shirt.png[Superman Taking Off The Shirt GIF]
 
-Its a fancy type of multiplication that uses a special number system (which I won't get into here).
+Let's examine your transaction. We'll call this the "Parent" transaction.
 
-In this number system, multiplication is easy, but DIVISION is IMPOSSIBLE.
+Your transaction likely had two Outputs:
 
-image:images/thanos-impossible.png[Thanos Impossible GIF]
+. Output to your link:https://twitter.com/CashApp[@CashApp] account.
+. Change output back to your wallet.
 
-The important point is that if you have a just Public Key, there is no way to figure out the Private Key.
+image:images/parent-transaction.png[Parent Transaction]
 
-You can't just divide it by G, because in this number system, division is impossible.
+(If you're not sure what an Output is, I suggest reading my thread on link:ch05.asciidoc[the Anatomy of a Transaction first]).
 
-(This number system is an Elliptic Curve over a Finite Field, aka "fancy math").
+So your Parent transaction is stuck with a low fee... what to do?
 
-image:images/calculating-figure-it-out.png[Calculating Figure It Out GIF]
+The trick here is to create a new a transaction.
 
-Let's not go too far into the math, but let's recap:
+This new transaction, called the "Child", SPENDS the Change output from the old transaction to yourself.
 
-- Private key is a secret number.
-- Public key is also basically a number, and you get it by multiplying the private key by G.
-- Division is impossible, so you cannot figure out the Private Key if you only know the Public Key.
+But... it pays a much higher fee (say, 200 sats/byte).
 
-image:images/shaun-the-sheep-movie-ok.png[Shaun The Sheep Movie Ok GIF]
+image:images/parent-child-transaction-link.png[Parent-Child Transaction link]
 
-The nice thing about Public Keys is that you can safely share them with everyone.
+Now instead of having 1 transaction sitting unconfirmed in the mempool, you have 2 transactions.
 
-So they function kind of like your digital identity.
+How does this help you?
 
-image:images/crazy-mr-bean.png[Crazy Mr Bean GIF]
+image:images/confused-emoji.png[Confused Emojis GIF]
 
-So what can we do with this now?
+Well, the miners reallllly want to mine your second transaction - you paid a juicy high fee of 200 sats/byte!
 
-Imagine I own 1 Bitcoin and I'd like to send it to my friend @SahilBloom.
+However, in order for them to mine that second transaction, they also have to include your first one, which had a super low fee of 10 sats/byte.
 
-In order to send this coin, I need a way to "prove" to the network that I am the rightful owner of this coin and authorize it's transfer.
+image:images/annotated-parent-transaction.png[Annotated Parent Transaction]
+image:images/annotated-child-transaction.png[Annotated Child Transaction]
 
-image:images/season-9-episode-21.png[season 9 episode 21 GIF by SpongeBob SquarePants]
+Because the Child spends one of the Parent's outputs, the Child cannot be mined without the Parent.
 
-This is where Digital Signatures come into play.
+To get the juicy Child's high fee, the miners need to include the low-fee Parent.
 
-I first create a message (in this case its a bitcoin transaction) that says:
+image:images/parent-child-transaction.png[Parent Child Transaction]
 
-"I, the owner of Danny's Public Key, authorize the sending of this 1 Bitcoin to the owner of Sahil's Public Key".
+So the miners will actually do a calculation to figure out the effective fee rate of your two transactions.
 
-image:images/send-it.png[Send It GIF]
+The Parent transaction paid:
 
-Now I need to prove to everyone that I created this message.
+_(10 sats/byte)*(142 bytes) = 1420 sats_
 
-This proof is called a Digital Signature.
+The Child transaction paid:
 
-I basically just put my Private Key and the Message into an equation, and out pops another number - the Signature!
+_(200 sats/byte)*(110 bytes) = 22000 sats_
 
-image:images/old-school-animation.png[old school animation GIF by bentuber]
+_Total sats paid = 23420_
 
-The cool thing about this number (Signature), is that anybody can look at the Signature, the Message, and the Public Key, plug them into another simple equation.
+_Total bytes = 252_
 
-If the math checks out, they can be 100% sure that the owner of the private key is the one who created the signature.
+_Effective fee rate = (23420 sats) / (252 bytes) =~ 93 sats/byte !_
 
-image:images/to-do-check.png[To Do Check GIF by Clean Mama]
+image:images/effective-fee-child-parent-transaction.png[Effective Fee]
 
-In other words, the Signature is mathematical proof that owner of the Private Key has authorized the Message!
+The miners want your Child transaction but in order to get it they need to include your Parent.
 
-image:images/definitive-proof-guaranteed.png[Definitive Proof Guaranteed GIF]
+So the two are treated as a package who's fee rate balances out to 93 sats/byte.
 
-Those are the basics of Private Keys, Public Keys, and Digital Signatures.
+This effective fee rate is now plenty high to outbid those other transactions!
 
-These elements of cryptography are used everywhere in software and the internet (not just bitcoin), and are a great example of the powers the fancy math gives us.
+image:images/transaction-fees-graph-spike-1.png[Transaction Fees Graph Spike]
 
-image:images/revenge-of-the-sith-power.png[revenge of the sith power GIF by Star Wars]
+The Child's high fee helped to boost the Parent's low fee. In other words, the Child paid for the Parent.
 
-Unfortunately I've hand-waved over the wonderful math that makes this all possible.
+You watch happily as your transactions get mined in the next block, and your deposit successfully appears in your link:https://twitter.com/CashApp[@CashApp] account.
 
-For more info on that, you can research "link:https://google.com/search?q=Elliptic+Curves+over+Finite+Fields[Elliptic Curves over Finite Fields]". The Math isn't too complicated, it's just very different from what they teach us in school.
+image:images/money-kaching.png[Money Kaching GIF]
 
-Hope that was helpful!
+Anyway, there's a summary of CPFP!
 
-Let me know if I got anything wrong - I really appreciate all the feedback in the comments 😀
+CPFP is just one technique to speed up your transaction when an unexpected fee spike occurs.
+
+The one caveat is that your Parent transaction must have a Change output available for you to do this with.
+
+Another technique to speed up transactions is called Replace By Fee (RBF), but I will cover that in a separate thread.
+
+Hope you enjoyed this one!
+
+It's also worth noting that you can perform CPFP on any payment you receive as well (it doesn't have to be a change output from a Spend).
+
+As long as you own a single output from the transaction, you can create a child transaction that accelerates the Parent.

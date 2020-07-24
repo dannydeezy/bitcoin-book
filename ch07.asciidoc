@@ -1,112 +1,156 @@
-== Internet Censorship and Bitcoin
+== Transaction Fees
 
-Why Twitter can ban you, but Bitcoin never will.
+Ever wonder why bitcoin transaction fees are sometimes high, sometimes low?
 
-What are the technical differences between centralized platforms and decentralized networks?
+Did you know that sending 0.001 bitcoin can cost more than sending 10,000 bitcoins depending on the situation?
 
-Let's dive in 👇
+I'll explain all this below 👇
 
-Over the past few years we've seen a lot of controversial figures get banned from popular websites like @Twitter, @YouTube, @Facebook, and @Instagram.
+For transactions to be finalized, they must be included in a Block.
 
-image:images/ii-topic.png[ii topic GIF]
+A new Block is mined roughly once every 10 minutes.
 
-Let's review the technical details of how these sites work and see why banning people is so easy on websites, then compare that to a decentralized network to see the difference.
+And each Block has a maximum size of about 2 megabytes.
 
-Let's look at the centralized platform *link:https://twitter.com[@Twitter]* as our first example.
+In other words, blockchain space is Scarce!
 
+image:images/scarcity-scarce.png[Scarcity Scarce GIF]
 
-image:images/twitter-bird.png[twitter-bird]
+Because the Block space is limited, transactions must compete with each other to get included.
 
-When your phone opens the Twitter app, or you type "*link:https://twitter.com[twitter.com]*" into your web browser, your device sends an electrical signal out to the Internet saying:
+This is where the Transaction Fees come into play.
 
-"Give me the data at link:https://twitter.com[twitter.com]".
+image:images/there-aint-nothing-for-free-nothing-is-free.png[There Aint Nothing For Free Nothing Is Free GIF]
 
-image:images/give-it-to-me-now.png[Give it to Me Now]
+Each transaction must include a Fee, which gets awarded to the miner who successfully mines that transaction.
 
-This request for information gets transmitted through the Internet (need a separate thread on how that works 😂), but it eventually ends up at one of Twitter's Servers.
+As a result, an interesting market develops.
 
-A Server is just a fancy name for a computer that's connected to the Internet and specialized to run websites.
+image:images/leonard-nimoy-spock.png[Leonard Nimoy Spock GIF]
 
-image:images/nitrado-last-oasis-servers.png[Nitrado Last Oasis Servers GIF]
+Users (and wallet softwares) must choose a fee that they think is high enough to get their transaction included... but low enough so they're not unnecessarily overpaying.
 
-This Server then runs some code (checks your username, compiles your timeline of cat pictures, figures out what your new notifications are, etc), and then sends all that data back to you.
+Striking that balance is a very interesting problem to solve.
 
-image:images/good-morning-funny-animals.png[Good Morning Funny Animals GIF]
+image:images/monkey.png[monkey GIF]
 
-Here's a nice diagram of the process.
+The resulting fee market varies drastically over time, depending on the volume of transactions.
 
-In this picture we see how 3 separate users (called "Clients") all go through the Internet to connect to the same central Server.
+When there is very high transaction volume, it takes a super high fee rate to get included.
 
-This is known as the "Client-Server" model and is how just about every website is run today.
+When volume is low, your transaction can get included with lower fee rates.
 
-image:images/server-client-model.png[server-client-model]
+The best tool for monitoring the current state of the fee market is Johoe's Bitcoin Mempool Website.
 
-So the Server responds and now you have a wonderful timeline of cats, but oh no, your favorite tweeter has been banned!
+(The "Mempool" is the collection of pending transactions, which are all not yet finalized, and competing to get mined in a block).
 
-What happened?
+link:https://jochen-hoenicke.de/queue/#0,24h[Jochen Hoenicke's Bitcoin Mempool Statistics Website]
 
-The key here is that Twitter 100% controls all the link:https://twitter.com[twitter.com] servers, so they have full control over who sees what data.
+Here's a screenshot of the Mempool Fee Data since 2017 - you can see there were some huge prolonged spikes in fees back in 2017 during the Crypto Craze!
 
-image:images/yourebanned-yourebanned.png[YOUAREBANNED YOUREBANNED GIF]
+image:images/mempool.png[mempool]
 
-So what's different about Bitcoin?
+The different colors represent different fee rates, for which the unit is "Satoshis per Byte" (remember 100 million Satoshis = 1 Bitcoin).
 
-What's all this talk about "Decentralization"?
+Notice how nothing here references the value sent - interestingly the value of bitcoin sent actually has no impact on fees!
 
-Let's dive into how the Bitcoin network does things.
+image:images/shocked-gif-wow.png[shocked gif wow GIF]
 
-image:images/bitcoin-hodl.png[Bitcoin Hodl GIF]
+Remember what is scarce in the blockchain: the amount of data!
 
-Bitcoin kinda has Servers too, but we call them "Nodes", and anybody can run one.
+Its not the value of the bitcoin that makes a transaction more expensive, but rather the total data that it uses.
 
-In fact there are thousands of Bitcoin Nodes continuously running all over the world.
+So in summary:
 
-Some publicly share their location (IP Address), while other stay private (using Tor).
+(Total Fee) = (Fee Rate sats/byte) x (Tx Size bytes)
 
-image:images/world-spinning.png[world spinning GIF by Walter Newton]
+So there are two factors that influence the total fee paid:
 
-In fact, YOU, right now, with a modern laptop and decent Internet connection can download the Bitcoin code and run your own Node.
+. The Fee Rate, which depends on the volume of transactions at the time (and you can choose this to be higher or lower depending on how fast you want it to confirm).
+. Data used in the transaction.
 
-It only takes a day or two for your computer to get caught up with history of all transactions (blockchain), and become an active Node in the network.
+Let's dive into 2:
 
-image:images/you-you-you-you.png[You You You You GIF]
+Look at these two transactions - they are both sending around 4.8 Bitcoin, but the second one uses far more data!
 
-But if there is no central Bitcoin Server, then what happens when somebody wants to send a Bitcoin transaction?
+Therefore, assuming both paid the same fee rate, the second one had to pay a higher *total* fee, in order to compensate for all that extra data.
 
-How do they know where to send it?
+image:images/sample-transaction-1.png[sample-transaction-1]
 
-Well here's the magic - they just need to find ONE of the nodes to send it to.
+image:images/sample-transaction-2.png[sample-transaction-2]
 
-image:images/only-one.png[Only One Alone There Can Be Only One GIF]
+Let's take a look at another recent transaction.
 
-The Bitcoin Node software is designed to find and connect to other Bitcoin Nodes around the world.
+This one moved ~2255 BTC (worth ~$20 million), and only paid a fee of 44101 satoshis (worth ~$4)!!
 
-When a transaction makes it to one of the Nodes, this Node will forward it to all its friends (peers), who will forward it to all their peers and eventually the whole network has it.
+It was able to do this because it only used 4 inputs and 2 outputs, so it didnt use up much data at all!
 
-image:images/p2p.png[p2p]
+image:images/sample-transaction-fees-1.png[sample-transaction-fees-1]
 
-Since there is no Central Server - this makes Censorship really really hard, if not impossible.
+Notice above that the Total Fee is 44101 Sats, the Size is 667 B (bytes), and the Fee Rate is 66.1 Sats/Byte.
 
-How would ban somebody from using Bitcoin?
+Let's see if the fee rate the website calculated is correct.
 
-image:images/spongebob-squarepants.png[Spongebob Squarepants GIF by swerk]
+(44101 Sats) / (667 Bytes) = 66.1 Sats/Byte, looks good!
 
-You can ensure you'll never be blocked from the Bitcoin network by just running your own Bitcoin Node.
+image:images/check.png[Check GIF]
 
-But even if you don't run your own Node - banning anybody from Bitcoin is basically infeasible.
+So how can all this help you manage your own wallet?
 
-To ban someone, you'd have to somehow contact and convince the majority of the many thousands of nodes all around the world to all change their software.
+To demonstrate, imagine there are two faithful bitcoiners, Alice and Bob, each of whom buys $10 of bitcoin every day on @CashApp 😉.
 
-Some of these Nodes haven't upgraded their software in years.
+Like good bitcoiners, both of them withdraw all their funds to their own cold storage.
 
-Some are on the Dark Web.
+But their methods are slightly different.
 
-And most wouldn't even listen to you anyway.
+Alice withdraws her full balance once every 2 weeks, but Bob withdraws his full balance once every day!
 
-image:images/gordan-ramsay-piss-off.png[Gordon Ramsay Piss Off GIF]
+Now imagine 10 weeks later, they each want to deposit all their funds back into @CashApp - who's going to pay more in fees?
 
-So in summary, it's really easy to get banned from a website, platform, or service that uses the centralized Client-Server model.
+Well, lets examine at their wallets.
 
-But it's basically impossible to get banned from a truly decentralized peer-to-peer network like Bitcoin.
+Alice will have 5 high-value UTXOs to spend, so her transaction will have 5 inputs and 1 output.
 
-image:images/braveheart.png[Braveheart GIF]
+But Bob will have 70 low-value UTXOs, so his transaction will have 70 inputs and 1 output!
+
+Bob's transaction is going to take up 14 times more data than Alice's despite it sending the same value!
+
+He's going to have to pay far more in fees!
+
+image:images/dang-it-bobby.png[Dang It Bobby! - King Of The Hill GIF]
+
+In short - always be mindful of your UTXOs, because you'll pay for them later!
+
+In another thread I can talk about how Bob could get around his issue (consolidation transactions), but we'll save that for another time...
+
+Finally, one more question.
+
+What happens if transaction pays too low of a fee rate?
+
+image:images/question.png[Question GIF]
+
+The answer is, it just kinda sits around in the Mempool, until the Mempool empties out.
+
+Sometimes transactions can be pending for hours, days or even weeks, at which point some nodes in the network actually drop the transaction and forget about it
+
+In a follow-up thread, I can discuss some more advanced methods like RBF (replace by fee) and CPFP (child pays for parent), which can help you avoid getting your transactions stuck.
+
+And finally, most bitcoin wallets are good enough now to estimate fees for you, so don't worry!
+
+image:images/monkey-dance.png[Monkey Dance GIF]
+
+To recap, we covered how transactions must compete with their fee rates to get included in blocks, and how fee rates can change based on network conditions.
+
+We also covered how the size of the transaction matters a lot when calculating fees.
+
+And finally we learned a little about wallet management.
+
+Hope you enjoyed the thread! Leave any questions in the comments, and be sure to follow me if you want to stay updated with all my future threads... we're just getting started going down this rabbit hole!!
+
+image:images/alice-rabbithole.png[Alice Rabbithole GIF]
+
+Also, just realized I never explicitly answered the original question - maybe one of you would like to answer it given the knowledge you've gained.
+
+In what situation would a 10,000 BTC transaction pay less in fees than a 0.001 BTC transaction?
+
+If you liked this thread, check out my newest one on Consolidation Transactions, and how to get massive savings on fees!

@@ -1,159 +1,111 @@
-== Mining and Blockchain
+== Keys and Digital Signatures
 
-An Introduction to Bitcoin Mining and the Blockchain.
+Private Keys, Public Keys, and Digital Signatures.
 
-How does it all work? A thread for beginners.
+What do all these terms mean?
 
-I'm going to take you through a little game, and together we're going to mine a simplified version of a bitcoin block.👇
+Here's a high level overview of the basics, and how they help us do cool things especially in bitcoin 👇
 
-Before we start, it’s important you have some understanding of what a Hash is.
+A Private Key is just secret number.
 
-A Hash is like a data fingerprint that’s calculated using some fancy math.
+Thats all.
 
-(If this is new, I suggest reading my link:ch01.asciidoc[previous beginner-friendly thread first]).
+It's just a really large random number - so large that it can't be guessed by anyone.
 
-You can play around with Hashes using this helpful website (and I'll be using it for our demonstrations here):
+image:images/numbers-crunching.png[Numbers Crunching GIF]
 
-.SHA256 Hash Calculator
-image:images/xorbin.gif[SHA256 Hash Calculator, link=https://xorbin.com/tools/sha256-hash-calculator]
+In bitcoin, private keys can be any number between 0 and 2^256.
 
-Let's play!
+To get a sense of how many choices there are, 2^256 is roughly the number of atoms in the known universe.
 
-Imagine you and I are miners in a simplified bitcoin network.
+image:images/galaxy-knowledge.png[Galaxy Knowledge GIF]
 
-We can make some money if we mine new blocks, but we have to play according to rules, otherwise the other users in the network will reject our blocks.
+So if you use a good random number generator to pick a number between 0 and 2^256, it's basically impossible for anyone to guess what the number is.
 
-image:images/know-the-rules.png[know-the-rules]
+image:images/its-a-secret.png[It&#39;s A Secret GIF]
 
-Rules:
+Once you have a Private Key, you can then calculate its Public Key.
 
-- Max of 2 transactions per block.
-- Whoever mines the block can claim a reward of 1 bitcoin plus the fees of the transactions in that block.
-- The SHA-256 Hash of the block’s contents must start with "00000".
-- Each block must include the Hash of the previous block.
+You do this by multiplying the Private Key by a set number that everyone has agreed upon (we call this set number G - the "Generator" point).
 
-image:images/read-the-receipts.png[Read The Receipts! GIF]
+image:images/purple-mark.png[Purple Mark GIF]
 
-That's a lot to remember, so it might be easier if we just take a look at the most recent block, which I mined myself.
+Now there are a couple important catches here.
 
-image:images/block-and-hash.png[block-and-hash]
+This isn't regular multiplication.
 
-A few things to note:
+Its a fancy type of multiplication that uses a special number system (which I won't get into here).
 
-- The Block Number 4532 means its the 4532nd block in the entire history of the network.
+In this number system, multiplication is easy, but DIVISION is IMPOSSIBLE.
 
-image:images/block-number.png[block-number]
+image:images/thanos-impossible.png[Thanos Impossible GIF]
 
-- There are two transactions in the block, each paying a small fee.
+The important point is that if you have a just Public Key, there is no way to figure out the Private Key.
 
-image:images/block-transactions.png[block-transactions]
+You can't just divide it by G, because in this number system, division is impossible.
 
-- I mined the block, so I got the reward - 1 newly created BTC, plus the 0.003 in fees.
+(This number system is an Elliptic Curve over a Finite Field, aka "fancy math").
 
-image:images/block-reward.png[block-reward]
+image:images/calculating-figure-it-out.png[Calculating Figure It Out GIF]
 
-- It links the previous block's hash (which starts with five 0's).
+Let's not go too far into the math, but let's recap:
 
-image:images/previous-block-hash.png[previous-block-hash]
+- Private key is a secret number.
+- Public key is also basically a number, and you get it by multiplying the private key by G.
+- Division is impossible, so you cannot figure out the Private Key if you only know the Public Key.
 
-- And finally at the bottom, you can see the hash of this block also starts with five 0's - so it's valid!
+image:images/shaun-the-sheep-movie-ok.png[Shaun The Sheep Movie Ok GIF]
 
-image:images/block-hash.png[block-hash]
+The nice thing about Public Keys is that you can safely share them with everyone.
 
-But there's one more field, the "Nonce" - what's this?
+So they function kind of like your digital identity.
 
-The Nonce is actually a meaningless field (you can put any number there).
+image:images/crazy-mr-bean.png[Crazy Mr Bean GIF]
 
-It's sole purpose is to give you some data to tinker with until your block hashes to something valid.
+So what can we do with this now?
 
-image:images/button.png[button GIF]
+Imagine I own 1 Bitcoin and I'd like to send it to my friend @SahilBloom.
 
-Take a look what happens if we keep everything the same, but change the Nonce by 1 (we change it from 14885 to 14884).
+In order to send this coin, I need a way to "prove" to the network that I am the rightful owner of this coin and authorize it's transfer.
 
-The SHA-256 hash at the bottom is completely different. It no longer starts with five 0's, so the block is not valid!
+image:images/season-9-episode-21.png[season 9 episode 21 GIF by SpongeBob SquarePants]
 
-image:images/modified-block-and-hash.jpg[modified-block-and-hash]
+This is where Digital Signatures come into play.
 
-The above, invalid block was one of the many guess-and-check attempts that my software made before finding a valid block.
+I first create a message (in this case its a bitcoin transaction) that says:
 
-The Nonce I finally found was 14885, and it works to make the block hash to start with 00000.
+"I, the owner of Danny's Public Key, authorize the sending of this 1 Bitcoin to the owner of Sahil's Public Key".
 
-Hence the final valid block is:
+image:images/send-it.png[Send It GIF]
 
-image:images/block-template.png[block-template]
+Now I need to prove to everyone that I created this message.
 
-Alright now I'm going to help YOU mine the next block.
+This proof is called a Digital Signature.
 
-Let's start by putting together the basics.
+I basically just put my Private Key and the Message into an equation, and out pops another number - the Signature!
 
-image:images/block-template-no-txs.png[block-template-no-txs]
+image:images/old-school-animation.png[old school animation GIF by bentuber]
 
-Notice:
+The cool thing about this number (Signature), is that anybody can look at the Signature, the Message, and the Public Key, plug them into another simple equation.
 
-- We added 1 to the Block Number, so we're at 4533 now.
-- You, the Reader, claim a reward of 1 BTC.
-- We include the previous block's hash
+If the math checks out, they can be 100% sure that the owner of the private key is the one who created the signature.
 
-image:images/canadian-agree.png[Canadian Agree GIF by CBC]
+image:images/to-do-check.png[To Do Check GIF by Clean Mama]
 
-But this block isn't complete yet.
+In other words, the Signature is mathematical proof that owner of the Private Key has authorized the Message!
 
-While it *is* legal to have 0 transactions in the block, you might as well include as many as you can so that you can claim some additional fees.
+image:images/definitive-proof-guaranteed.png[Definitive Proof Guaranteed GIF]
 
-So let's find some transactions to add.
+Those are the basics of Private Keys, Public Keys, and Digital Signatures.
 
-image:images/lets-make-money.png[lets-make-money]
+These elements of cryptography are used everywhere in software and the internet (not just bitcoin), and are a great example of the powers the fancy math gives us.
 
-Pending transactions get broadcast to you from other participants in the network.
+image:images/revenge-of-the-sith-power.png[revenge of the sith power GIF by Star Wars]
 
-Let's pretend that there are 3 valid pending transactions to choose from:
+Unfortunately I've hand-waved over the wonderful math that makes this all possible.
 
-- Danny pays Sahil 1 BTC (+0.002 Fee).
-- Sahil pays Sam 2 BTC (+0.001 Fee).
-- Danny pays Kenny 0.5 BTC (+0.003 Fee).
+For more info on that, you can research "link:https://google.com/search?q=Elliptic+Curves+over+Finite+Fields[Elliptic Curves over Finite Fields]". The Math isn't too complicated, it's just very different from what they teach us in school.
 
-Remember, the max transactions you can include in a block is 2... so which 2 will you choose?
+Hope that was helpful!
 
-Easy, pick the ones with the highest fees, so you can make the most money!
-
-Let's add them to your block:
-
-Notice how your reward is now 1.005 instead of just 1.
-
-image:images/block-template.png[block-template]
-
-Ok now that you have your block ready to go, there's one final problem: the hash does not start with 00000!
-
-image:images/edited-block-and-hash.png[edited-block-and-hash]
-
-image:images/edited-block-hash.png[edited-block-and-hash]
-
-What to do?
-
-Well, remember the hash game from my previous thread?
-
-You need to start changing that Nonce and checking hashes until you find a valid one!
-
-(Or better yet, let your friend's software do it for you!)
-
-image:images/hey-you-toy-tory.png[Hey You Toy Story GIF]
-
-Luckily I have a script that does this.
-
-After running my script for about a second, and trying 705,719 different Nonces, look what I found for you.
-
-It's a valid block!
-
-image:images/valid-block-and-hash.png[valid-block-and-hash]
-
-Go ahead and submit this to our fake bitcoin network, and everyone will agree that it is indeed valid, and your block will be added to the blockchain.
-
-This block will be part of the blockchain forever!
-
-image:images/infinity-love.png[Infinity Love GIF]
-
-Oh and you got a reward of 1.005 Bitcoin, congrats!
-
-image:images/ka-ching-pay-day.png[Ka Ching Pay Day GIF]
-
-Anyway, that's a simplified version of bitcoin mining. Hope it was helpful!
+Let me know if I got anything wrong - I really appreciate all the feedback in the comments 😀
