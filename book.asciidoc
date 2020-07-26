@@ -2,22 +2,22 @@
 
 A light technical introduction to bitcoin
 
-include::ch01.asciidoc[]
+include::ch01-hash-functions.asciidoc[]
 
-include::ch02.asciidoc[]
+include::ch02-keys-and-signatures.asciidoc[]
 
-include::ch03.asciidoc[]
+include::ch03-mining.asciidoc[]
 
-include::ch04.asciidoc[]
+include::ch04-difficulty-adjustment.asciidoc[]
 
-include::ch05.asciidoc[]
+include::ch05-transaction-anatomy.asciidoc[]
 
-include::ch06.asciidoc[]
+include::ch06-addresses.asciidoc[]
 
-include::ch07.asciidoc[]
+include::ch07-fees.asciidoc[]
 
-include::ch08.asciidoc[]
+include::ch08-rbf-cpfp.asciidoc[]
 
-include::ch09.asciidoc[]
+include::ch09-consolidations.asciidoc[]
 
-include::ch10.asciidoc[]
+include::ch10-censorship.asciidoc[]
