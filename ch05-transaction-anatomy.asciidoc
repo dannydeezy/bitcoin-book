@@ -21,7 +21,7 @@ This is used to uniquely identify a transaction, and it comes from taking the SH
 
 image:images/sample-transaction-circled.png[sample-transaction-circled]
 
-(Side note, for a primer on what a SHA-256 Hash is, check out link:ch01.asciidoc[my thread on Hash functions]).
+(Side note, for a primer on what a SHA-256 Hash is, check out link:ch01-hash-functions.asciidoc[my thread on Hash functions]).
 
 Next lets look at those two entries on the right. These are the Outputs (recipients) of the transaction.
 

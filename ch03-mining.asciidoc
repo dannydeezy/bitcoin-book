@@ -10,7 +10,7 @@ Before we start, it’s important you have some understanding of what a Hash is.
 
 A Hash is like a data fingerprint that’s calculated using some fancy math.
 
-(If this is new, I suggest reading my link:ch01.asciidoc[previous beginner-friendly thread first]).
+(If this is new, I suggest reading my link:ch01-hash-functions.asciidoc[previous beginner-friendly thread first]).
 
 You can play around with Hashes using this helpful website (and I'll be using it for our demonstrations here):
 
