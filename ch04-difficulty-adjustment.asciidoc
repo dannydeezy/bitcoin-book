@@ -18,7 +18,7 @@ If you said number two, you're right!
 Go ahead and try it yourself with this online hash calculator if you like.
 
 .SHA256 Hash Calculator
-image:images/xorbin.gif[SHA256 Hash Calculator, link:https://xorbin.com/tools/sha256-hash-calculator]
+image:images/xorbin.gif[SHA256 Hash Calculator, link=https://xorbin.com/tools/sha256-hash-calculator]
 
 Look, in just about 30 seconds of clicking, I found a hash that starts with a 0.
 
