@@ -64,7 +64,7 @@ image:images/crazy-mr-bean.png[Crazy Mr Bean GIF]
 
 So what can we do with this now?
 
-Imagine I own 1 Bitcoin and I'd like to send it to my friend @SahilBloom.
+Imagine I own 1 Bitcoin and I'd like to send it to my friend link:https://twitter.com/SahilBloom[@SahilBloom].
 
 In order to send this coin, I need a way to "prove" to the network that I am the rightful owner of this coin and authorize it's transfer.
 

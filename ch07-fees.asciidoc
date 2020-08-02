@@ -97,7 +97,7 @@ image:images/check.png[Check GIF]
 
 So how can all this help you manage your own wallet?
 
-To demonstrate, imagine there are two faithful bitcoiners, Alice and Bob, each of whom buys $10 of bitcoin every day on @CashApp 😉.
+To demonstrate, imagine there are two faithful bitcoiners, Alice and Bob, each of whom buys $10 of bitcoin every day on link:https://twitter.com/CashApp[@CashApp] 😉.
 
 Like good bitcoiners, both of them withdraw all their funds to their own cold storage.
 
@@ -105,7 +105,7 @@ But their methods are slightly different.
 
 Alice withdraws her full balance once every 2 weeks, but Bob withdraws his full balance once every day!
 
-Now imagine 10 weeks later, they each want to deposit all their funds back into @CashApp - who's going to pay more in fees?
+Now imagine 10 weeks later, they each want to deposit all their funds back into link:https://twitter.com/CashApp[@CashApp] - who's going to pay more in fees?
 
 Well, lets examine at their wallets.
 

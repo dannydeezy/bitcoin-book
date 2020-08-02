@@ -6,7 +6,7 @@ What are the technical differences between centralized platforms and decentraliz
 
 Let's dive in 👇
 
-Over the past few years we've seen a lot of controversial figures get banned from popular websites like @Twitter, @YouTube, @Facebook, and @Instagram.
+Over the past few years we've seen a lot of controversial figures get banned from popular websites like link:https://twitter.com/Twitter[@Twitter], link:https://twitter.com/YouTube[@YouTube], link:https://twitter.com/Facebook[@Facebook], and link:https://twitter.com/Instagram[@Instagram].
 
 image:images/ii-topic.png[ii topic GIF]
 
