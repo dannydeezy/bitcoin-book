@@ -18,7 +18,7 @@ If you said number two, you're right!
 Go ahead and try it yourself with this online hash calculator if you like.
 
 .SHA256 Hash Calculator
-image:images/xorbin.gif[SHA256 Hash Calculator, link:https://xorbin.com/tools/sha256-hash-calculator]
+image:images/xorbin.gif[SHA256 Hash Calculator, link=https://xorbin.com/tools/sha256-hash-calculator]
 
 Look, in just about 30 seconds of clicking, I found a hash that starts with a 0.
 
@@ -142,7 +142,7 @@ Faster or slower block times affect the rate of new bitcoins entering the market
 
 In every other asset class, when the price goes UP, more of it gets produced, and the supply begins to increase more quickly, which ultimately drives the price back DOWN.
 
-@saifedean has explained this wonderfully in his book link:https://www.amazon.com/Bitcoin-Standard-Decentralized-Alternative-Central/dp/1119473861[The Bitcoin Standard].
+link:https://twitter.com/saifedean[@saifedean] has explained this wonderfully in his book link:https://www.amazon.com/Bitcoin-Standard-Decentralized-Alternative-Central/dp/1119473861[The Bitcoin Standard].
 
 But bitcoin fixes this.
 

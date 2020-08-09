@@ -21,7 +21,7 @@ This is used to uniquely identify a transaction, and it comes from taking the SH
 
 image:images/sample-transaction-circled.png[sample-transaction-circled]
 
-(Side note, for a primer on what a SHA-256 Hash is, check out link:ch01.asciidoc[my thread on Hash functions]).
+(Side note, for a primer on what a SHA-256 Hash is, check out link:ch01-hash-functions.asciidoc[my thread on Hash functions]).
 
 Next lets look at those two entries on the right. These are the Outputs (recipients) of the transaction.
 
@@ -138,7 +138,7 @@ Make sense? Awesome!
 
 But here's a question for you.
 
-Say I only own a single UTXO, worth 0.69561192 BTC, but I want to send my friend @SahilBloom 0.2862 BTC?
+Say I only own a single UTXO, worth 0.69561192 BTC, but I want to send my friend link:https://twitter.com/SahilBloom[@SahilBloom] 0.2862 BTC?
 
 image:images/confused-dogs.png[Confused Dogs GIF]
 
@@ -152,7 +152,7 @@ image:images/change.png[Change GIF]
 
 Bitcoin uses a similar concept of Change.
 
-For me to pay @SahilBloom 0.2862 using my 0.69561192 UTXO, I'll create a transaction with two Outputs:
+For me to pay link:https://twitter.com/SahilBloom[@SahilBloom] 0.2862 using my 0.69561192 UTXO, I'll create a transaction with two Outputs:
 
 - One for 0.2862 to Sahil
 - And one that gives the remaining 0.40861192 change back to me.

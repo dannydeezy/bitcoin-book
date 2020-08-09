@@ -33,9 +33,9 @@ image:images/only-one-vacancy.png[Only One Vacancy GIF]
 
 These are called "Pay to Public Key Hash" ("P2PKH") addresses because most of the rest of that data in the Address is a Hash of Alice’s Public Key.
 
-For some background on what Public Keys and Signatures are, I'd suggest checking out my link:ch08.asciidoc[previous thread].
+For some background on what Public Keys and Signatures are, I'd suggest checking out my link:ch02-keys-and-signatures.asciidoc[previous thread].
 
-For background on what a Hash is, check out link:ch01.asciidoc[this one].
+For background on what a Hash is, check out link:ch01-hash-functions.asciidoc[this one].
 
 You might be wondering why the address has the Hash of Alice's Public Key, and not just the actual Public Key.
 

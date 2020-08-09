@@ -6,7 +6,7 @@ What are they? How do they work? 👇
 
 Before we start, this thread requires a little bit of background knowledge.
 
-If you're new, I recommend checking out the threads on link:ch03.asciidoc[Bitcoin Transactions] and link:ch04.asciidoc[Transaction Fees] if you haven't already.
+If you're new, I recommend checking out the threads on link:ch05-transaction-anatomy.asciidoc[Bitcoin Transactions] and link:ch07-fees.asciidoc[Transaction Fees] if you haven't already.
 
 To explain Consolidation Transactions, lets consider somebody named Alice, who runs an online store selling crystals.
 
