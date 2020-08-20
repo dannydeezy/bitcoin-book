@@ -107,5 +107,3 @@ Unfortunately I've hand-waved over the wonderful math that makes this all possib
 For more info on that, you can research "link:https://google.com/search?q=Elliptic+Curves+over+Finite+Fields[Elliptic Curves over Finite Fields]". The Math isn't too complicated, it's just very different from what they teach us in school.
 
 Hope that was helpful!
-
-Let me know if I got anything wrong - I really appreciate all the feedback in the comments 😀

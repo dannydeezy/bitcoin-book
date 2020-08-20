@@ -169,6 +169,6 @@ We learned about TXIDs, Outputs, Inputs, Fees, UTXOs, Change, and the basic conc
 
 There's a lot more we can discuss regarding Transactions, but I'll end the thread here.
 
-I hope this was a helpful summary of the basics. Let me know in the comments if you have any questions!
+I hope this was a helpful summary of the basics.
 
 image:images/rhyming-leonardo-dicaprio.png[rhyming leonardo dicaprio GIF]
