@@ -145,7 +145,7 @@ We also covered how the size of the transaction matters a lot when calculating f
 
 And finally we learned a little about wallet management.
 
-Hope you enjoyed the thread! Leave any questions in the comments, and be sure to follow me if you want to stay updated with all my future threads... we're just getting started going down this rabbit hole!!
+Hope you enjoyed the thread! We're just getting started going down this rabbit hole!!
 
 image:images/alice-rabbithole.png[Alice Rabbithole GIF]
 
