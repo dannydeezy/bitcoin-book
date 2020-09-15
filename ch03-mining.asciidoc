@@ -2,15 +2,15 @@
 
 An Introduction to Bitcoin Mining and the Blockchain.
 
-How does it all work? A thread for beginners.
+How does it all work? A chapter for beginners.
 
-I'm going to take you through a little game, and together we're going to mine a simplified version of a bitcoin block.👇
+I'm going to take you through a little game, and together we're going to mine a simplified version of a bitcoin block 👇
 
-Before we start, it’s important you have some understanding of what a Hash is.
+Before we start, it's important you have some understanding of what a Hash is.
 
-A Hash is like a data fingerprint that’s calculated using some fancy math.
+A Hash is like a data fingerprint that's calculated using some fancy math.
 
-(If this is new, I suggest reading my link:ch01-hash-functions.asciidoc[previous beginner-friendly thread first]).
+(If this is new, I suggest reading the link:ch01-hash-functions.asciidoc[previous beginner-friendly chapter first]).
 
 You can play around with Hashes using this helpful website (and I'll be using it for our demonstrations here):
 
@@ -29,7 +29,7 @@ Rules:
 
 - Max of 2 transactions per block.
 - Whoever mines the block can claim a reward of 1 bitcoin plus the fees of the transactions in that block.
-- The SHA-256 Hash of the block’s contents must start with "00000".
+- The SHA-256 Hash of the block's contents must start with "00000".
 - Each block must include the Hash of the previous block.
 
 image:images/read-the-receipts.png[Read The Receipts! GIF]
@@ -130,7 +130,7 @@ image:images/edited-block-hash.png[edited-block-and-hash]
 
 What to do?
 
-Well, remember the hash game from my previous thread?
+Well, remember the hash game from the previous chapter?
 
 You need to start changing that Nonce and checking hashes until you find a valid one!
 

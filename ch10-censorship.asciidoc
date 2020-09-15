@@ -14,7 +14,6 @@ Let's review the technical details of how these sites work and see why banning p
 
 Let's look at the centralized platform *link:https://twitter.com[@Twitter]* as our first example.
 
-
 image:images/twitter-bird.png[twitter-bird]
 
 When your phone opens the Twitter app, or you type "*link:https://twitter.com[twitter.com]*" into your web browser, your device sends an electrical signal out to the Internet saying:
@@ -23,7 +22,7 @@ When your phone opens the Twitter app, or you type "*link:https://twitter.com[tw
 
 image:images/give-it-to-me-now.png[Give it to Me Now]
 
-This request for information gets transmitted through the Internet (need a separate thread on how that works 😂), but it eventually ends up at one of Twitter's Servers.
+This request for information gets transmitted through the Internet (need a separate chapter on how that works 😂), but it eventually ends up at one of Twitter's Servers.
 
 A Server is just a fancy name for a computer that's connected to the Internet and specialized to run websites.
 

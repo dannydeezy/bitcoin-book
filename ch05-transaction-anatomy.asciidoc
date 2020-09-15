@@ -2,7 +2,7 @@
 
 TXID, Outputs, Inputs, Transaction Fees, UTXOs - what do all these terms mean?
 
-In this thread we will dissect a real bitcoin transaction and I'll explain its main components.
+In this chapter we will dissect a real bitcoin transaction and I'll explain its main components.
 
 To expand your background knowledge, read on 👇
 
@@ -21,7 +21,7 @@ This is used to uniquely identify a transaction, and it comes from taking the SH
 
 image:images/sample-transaction-circled.png[sample-transaction-circled]
 
-(Side note, for a primer on what a SHA-256 Hash is, check out link:ch01-hash-functions.asciidoc[my thread on Hash functions]).
+(Side note, for a primer on what a SHA-256 Hash is, check out the link:ch01-hash-functions.asciidoc[chapter on Hash functions]).
 
 Next lets look at those two entries on the right. These are the Outputs (recipients) of the transaction.
 
@@ -167,7 +167,7 @@ So let's recap:
 
 We learned about TXIDs, Outputs, Inputs, Fees, UTXOs, Change, and the basic concept of how transactions are linked (Outputs are UTXOs until they become Inputs).
 
-There's a lot more we can discuss regarding Transactions, but I'll end the thread here.
+There's a lot more we can discuss regarding Transactions, but I'll end the chapter here.
 
 I hope this was a helpful summary of the basics.
 
