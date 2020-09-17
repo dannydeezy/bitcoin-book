@@ -1,8 +1,6 @@
 == Bitcoin Addresses
 
-How do they work? Where do they come from? Why do some look different than others?
-
-Thread 👇
+How do they work? Where do they come from? Why do some look different than others? 👇
 
 When bitcoin gets sent, it always gets sent to an Address.
 
@@ -31,9 +29,9 @@ Addresses that start with a 1 are the most basic and are called "Pay to Public K
 
 image:images/only-one-vacancy.png[Only One Vacancy GIF]
 
-These are called "Pay to Public Key Hash" ("P2PKH") addresses because most of the rest of that data in the Address is a Hash of Alice’s Public Key.
+These are called "Pay to Public Key Hash" ("P2PKH") addresses because most of the rest of that data in the Address is a Hash of Alice's Public Key.
 
-For some background on what Public Keys and Signatures are, I'd suggest checking out my link:ch02-keys-and-signatures.asciidoc[previous thread].
+For some background on what Public Keys and Signatures are, I'd suggest checking out the link:ch02-keys-and-signatures.asciidoc[previous chapter].
 
 For background on what a Hash is, check out link:ch01-hash-functions.asciidoc[this one].
 
@@ -108,7 +106,7 @@ The most common one is a "Multi-Signature" script, which requires Signatures fro
 
 image:images/high-five-team-work.png[high five team work GIF]
 
-Other types of Scripts can include Timelocks (Bitcoin locked for a certain amount of time) and many more possibilities, which I can cover in other threads.
+Other types of Scripts can include Timelocks (Bitcoin locked for a certain amount of time) and many more possibilities, which I can cover in other chapters.
 
 image:images/possibilities.png[Possibilities GIF]
 
@@ -132,7 +130,4 @@ So to recap, we covered 3 types of addresses:
 
 Those are the basics of Bitcoin Addresses!
 
-We can dive deeper in further threads, but I'll end it here.
-
-Also if you're interested, subscribe to my email list here:
-link:https://hive-mind.xyz/subscribe/dannydiekroeger[Danny's Email List]
+We can dive deeper in further chapters, but I'll end it here.

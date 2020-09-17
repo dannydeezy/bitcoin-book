@@ -2,9 +2,9 @@
 
 How does the bitcoin network ensure that blocks continue to get mined once every 10 minutes on average?
 
-In this thread I'll explain the Difficulty Adjustment, and why it might be the most genius part of bitcoin 👇
+In this chapter I'll explain the Difficulty Adjustment, and why it might be the most genius part of bitcoin 👇
 
-If you remember my thread on bitcoin mining, we discussed how the miners are trying to construct a block that hashes to something that starts with a bunch of 0's.
+If you remember the link:ch03-mining.asciidoc[previous chapter] on bitcoin mining, we discussed how the miners are trying to construct a block that hashes to something that starts with a bunch of 0's.
 
 So I have a question for you, which is harder:
 

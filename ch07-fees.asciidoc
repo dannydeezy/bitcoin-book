@@ -121,7 +121,7 @@ image:images/dang-it-bobby.png[Dang It Bobby! - King Of The Hill GIF]
 
 In short - always be mindful of your UTXOs, because you'll pay for them later!
 
-In another thread I can talk about how Bob could get around his issue (consolidation transactions), but we'll save that for another time...
+In link:./ch09-consolidations.asciidoc[another chapter] I talk about how Bob could get around his issue (consolidation transactions), so we'll save that for another time.
 
 Finally, one more question.
 
@@ -133,7 +133,7 @@ The answer is, it just kinda sits around in the Mempool, until the Mempool empti
 
 Sometimes transactions can be pending for hours, days or even weeks, at which point some nodes in the network actually drop the transaction and forget about it
 
-In a follow-up thread, I can discuss some more advanced methods like RBF (replace by fee) and CPFP (child pays for parent), which can help you avoid getting your transactions stuck.
+In the following chapter, I discuss some more advanced methods like RBF (replace by fee) and CPFP (child pays for parent), which can help you avoid getting your transactions stuck.
 
 And finally, most bitcoin wallets are good enough now to estimate fees for you, so don't worry!
 
@@ -153,4 +153,4 @@ Also, just realized I never explicitly answered the original question - maybe on
 
 In what situation would a 10,000 BTC transaction pay less in fees than a 0.001 BTC transaction?
 
-If you liked this thread, check out my newest one on Consolidation Transactions, and how to get massive savings on fees!
+If you liked this chapter, check out link:ch09-consolidations.asciidoc[this one] on Consolidation Transactions, and how to get massive savings on fees!

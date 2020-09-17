@@ -20,7 +20,7 @@ But all those new transactions were unexpectedly added quickly, and they bid hig
 
 image:images/auction-wars.png[Auction Wars GIF]
 
-(For some background on why more volume of transactions causes higher fees, you can check out link:ch07-fees.asciidoc[my thread on transaction fees]).
+(For some background on why more volume of transactions causes higher fees, you can check out the link:ch07-fees.asciidoc[chapter on transaction fees]).
 
 Now your transaction has a low fee compared to all these new ones, so it is stuck behind them.
 
@@ -43,7 +43,7 @@ Your transaction likely had two Outputs:
 
 image:images/parent-transaction.png[Parent Transaction]
 
-(If you're not sure what an Output is, I suggest reading my thread on link:ch05-transaction-anatomy.asciidoc[the Anatomy of a Transaction first]).
+(If you're not sure what an Output is, I suggest reading the chapter on link:ch05-transaction-anatomy.asciidoc[the Anatomy of a Transaction] first).
 
 So your Parent transaction is stuck with a low fee... what to do?
 

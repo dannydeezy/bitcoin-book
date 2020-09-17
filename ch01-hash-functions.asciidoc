@@ -158,6 +158,6 @@ And when one of them finds a valid one, they get to add a block to the blockchai
 
 image:images/bitcoin.png[bitcoin GIF]
 
-Anyway, that's the basics, and I'll end the thread on Hash Functions here.
+Anyway, that's the basics, and I'll end the chapter on Hash Functions here.
 
-I’ve purposefully glazed over the specific details of mining - we’ll save those details for another thread :)
+I've purposefully glazed over the specific details of mining - we'll save those details for link:ch03-mining.asciidoc[another chapter] :)
